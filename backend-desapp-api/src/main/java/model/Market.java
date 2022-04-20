@@ -4,7 +4,7 @@ import java.util.List;
 
 public class Market {
  
-    private List<Transactions> transactions;
+    private List<Transaction> transactions;
 //User 
 //OperationQuantity: (A que hace referencia)
 //-Popularity:
