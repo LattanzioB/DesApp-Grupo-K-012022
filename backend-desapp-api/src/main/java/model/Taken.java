@@ -1,21 +1,20 @@
 package model;
 
-public class Paid extends TransactionState{
+public class Taken extends TransactionState{
 
-    public Paid(Transaction transaction) {
+    public Taken(Transaction transaction) {
         super(transaction);
         
     }
 
     @Override
-    public void transferPaid() {
-        // TODO Auto-generated method stub
-        
+    public void transferTake() {
+        //error
     }
 
     @Override
     public void transferReceived() {
-        // TODO Auto-generated method stub
+        super.transaction.changeState(new Received(super.transaction));
         
     }
 

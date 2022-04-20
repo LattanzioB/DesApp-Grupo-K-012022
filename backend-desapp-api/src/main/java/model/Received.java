@@ -7,20 +7,20 @@ public class Received extends TransactionState{
     }
 
     @Override
-    public void transferPaid() {
-        // TODO Auto-generated method stub
+    public void transferTake() {
+        // error
         
     }
 
     @Override
     public void transferReceived() {
-        // TODO Auto-generated method stub
+        //error
         
     }
 
     @Override
     public void cancelTransaction() {
-        // TODO Auto-generated method stub
+        //error
         
     }
     

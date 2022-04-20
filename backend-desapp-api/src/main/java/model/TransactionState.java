@@ -7,7 +7,7 @@ public abstract class TransactionState {
         this.transaction = transaction;
     }
 
-    public abstract void transferPaid();
+    public abstract void transferTake();
     public abstract void transferReceived();
     public abstract void cancelTransaction();
 }

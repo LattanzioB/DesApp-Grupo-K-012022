@@ -8,20 +8,20 @@ public class Published extends TransactionState {
 
 
     @Override
-    public void transferPaid() {
-        // TODO Auto-generated method stub
+    public void transferTake() {
+        super.transaction.changeState(new Taken(super.transaction));
         
     }
 
     @Override
     public void transferReceived() {
-        // TODO Auto-generated method stub
+        // Error
         
     }
 
     @Override
     public void cancelTransaction() {
-        // TODO Auto-generated method stub
+        // descontar puntos al usuario que cancelo
         
     }
     

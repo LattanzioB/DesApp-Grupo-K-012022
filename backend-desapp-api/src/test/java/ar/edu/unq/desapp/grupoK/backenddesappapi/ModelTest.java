@@ -1,7 +1,6 @@
 package ar.edu.unq.desapp.grupoK.backenddesappapi;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import org.junit.jupiter.api.Test;
 
 public class ModelTest {
