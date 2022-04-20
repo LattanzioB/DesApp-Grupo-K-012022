@@ -26,7 +26,12 @@ public class Transaction {
     public void transferReceived(){
         this.transactionState.transferReceived();
     }
+
     public void changeState(TransactionState transactionState) {
         this.transactionState = transactionState;
+    }
+
+    public User getUser() {
+        return this.publisher;
     }
 }
