@@ -19,7 +19,7 @@ public class ReceivedState extends TransactionState{
     }
 
     @Override
-    public void cancelTransaction() {
+    public void cancelTransaction(User user) {
         //error
         
     }

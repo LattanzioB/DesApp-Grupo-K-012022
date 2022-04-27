@@ -64,4 +64,21 @@ public class User {
         }
         
     }
+
+    public void cancelTransaction(Transaction transaction) {
+        transaction.cancelTransaction(this);
+        
+    }
+
+    public void deleteTransactionPublished(Transaction transaction) {
+        this.transactionsPublished.remove(transaction);
+    }
+
+    public void discountPoints() {
+        this.popularity -= 20;
+    }
+
+    public void deleteTransactionTaken(Transaction transaction) {
+        this.transactionsTaken.remove(transaction);
+    }
 }

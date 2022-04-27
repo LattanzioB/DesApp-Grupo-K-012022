@@ -50,4 +50,14 @@ public class Transaction {
     public boolean isReceivedState() {
         return this.transactionState.isReceived();
     }
+
+
+    public User getConsumer() {
+        return this.consumer;
+    }
+
+    public void cancelTransaction(User user) {
+        this.transactionState.cancelTransaction(user);
+    }
+
 }

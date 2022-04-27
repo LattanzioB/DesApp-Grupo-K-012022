@@ -14,13 +14,21 @@ public class TakenState extends TransactionState{
 
     @Override
     public void transferReceived() {
-        super.transaction.changeState(new ReceivedState(super.transaction));
+        this.transaction.changeState(new ReceivedState(super.transaction));
         
     }
 
     @Override
-    public void cancelTransaction() {
-        // TODO Auto-generated method stub
+    public void cancelTransaction(User user) {
+        if (transaction.getPublisher().getEmail() == user.getEmail()){
+            user.discountPoints();
+            user.deleteTransactionPublished(this.transaction);
+            this.transaction.getConsumer().deleteTransactionTaken(this.transaction);
+        }else if (transaction.getConsumer().getEmail() == user.getEmail()){
+            user.discountPoints();
+            user.deleteTransactionTaken(this.transaction);   
+            this.transaction.changeState(new PublishedState(this.transaction));
+        }
         
     }
 

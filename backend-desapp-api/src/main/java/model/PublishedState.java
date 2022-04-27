@@ -9,7 +9,7 @@ public class PublishedState extends TransactionState {
 
     @Override
     public void transferTake() {
-        super.transaction.changeState(new TakenState(super.transaction));
+        this.transaction.changeState(new TakenState(super.transaction));
         
     }
 
@@ -20,8 +20,8 @@ public class PublishedState extends TransactionState {
     }
 
     @Override
-    public void cancelTransaction() {
-        // descontar puntos al usuario que cancelo
+    public void cancelTransaction(User user) {
+        user.deleteTransactionPublished(this.transaction);
         
     }
 

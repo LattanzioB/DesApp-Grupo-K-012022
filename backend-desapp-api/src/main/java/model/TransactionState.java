@@ -9,7 +9,7 @@ public abstract class TransactionState {
 
     public abstract void transferTake();
     public abstract void transferReceived();
-    public abstract void cancelTransaction();
+    public abstract void cancelTransaction(User user);
     public abstract boolean isPublished();
     public abstract boolean isTaken();
     public abstract boolean isReceived();
