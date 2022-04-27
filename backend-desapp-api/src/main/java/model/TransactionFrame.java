@@ -8,20 +8,20 @@ public class TransactionFrame {
     private Integer operationsQuantity;
     private Integer popularity;
 
-    public TransactionFrame(Transaction transaction, Market market){
+    public TransactionFrame(Transaction transaction){
         this.transaction = transaction;
         this.publishedHour = new Date();
-        this.operationsQuantity = this.getUserOperations(market);
+        this.operationsQuantity = this.getUserOperations(transaction);
         this.popularity = this.getUserPopularity();
     }
 
     private Integer getUserPopularity() {
 
-        return this.transaction.getUser().getPopularity();
+        return this.transaction.getPublisher().getPopularity();
     }
 
-    private Integer getUserOperations(Market market){
-        return market.getUserOperationsQuantity(this.transaction.getUser().getEmail());
+    private Integer getUserOperations(Transaction transaction){
+        return transaction.getPublisher().operationsQuantity();
     }
 
 }
