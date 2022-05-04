@@ -19,7 +19,7 @@ jobs:
     - name: Execute Gradle build
       run: ./gradlew build
 
-name: Build
+
 on:
   push:
     branches:
