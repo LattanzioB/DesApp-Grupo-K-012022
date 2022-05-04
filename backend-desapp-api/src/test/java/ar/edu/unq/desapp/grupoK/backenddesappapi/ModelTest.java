@@ -4,8 +4,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import model.Crypto;
+import model.InvalidUserReceivingTransferException;
 import model.SystemManager;
 import model.Transaction;
 import model.User;
@@ -46,7 +48,7 @@ public class ModelTest {
     }
 
     @Test
-    public void PublisherCanReceiveATransactionAndTransactionStateChangeToReceived(){
+    public void PublisherCanReceiveATransactionAndTransactionStateChangeToReceived() throws InvalidUserReceivingTransferException{
         Crypto bnb = new Crypto("BNB"); 
         User user = new User("Juan", "surname", "email", "adress", "password" , 12345678 , 98765432);
         User user2 = new User("Juan", "surname", "email2", "adress", "password" , 12345678 , 98765432);
