@@ -3,6 +3,15 @@ plugins {
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'java'
 	id 'war'
+    id "org.sonarqube" version "3.3"
+}
+
+sonarqube {
+  properties {
+    property "sonar.projectKey", "LattanzioB_DesApp-Grupo-K-012022"
+    property "sonar.organization", "lattanziob"
+    property "sonar.host.url", "https://sonarcloud.io"
+  }
 }
 
 group = 'ar.edu.unq.desapp.grupoK'
