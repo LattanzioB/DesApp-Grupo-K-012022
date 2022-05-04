@@ -2,9 +2,9 @@ package ar.edu.unq.desapp.grupoK.backenddesappapi;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import model.Crypto;
 import model.InvalidUserReceivingTransferException;
@@ -64,11 +64,29 @@ public class ModelTest {
     }
 
     @Test
-    public void PublisherCancelsTransactionWhenIsJustPublishedAndTransferIsRemovedFromsHisTransfersPublished(){
+    public void ConsumerCannotReceiveATransactionAndTransactionStateDoenstChangeToReceived() throws InvalidUserReceivingTransferException{
         Crypto bnb = new Crypto("BNB"); 
         User user = new User("Juan", "surname", "email", "adress", "password" , 12345678 , 98765432);
         User user2 = new User("Juan", "surname", "email2", "adress", "password" , 12345678 , 98765432);
         
+        Transaction transaction = new Transaction(bnb,  0.5,  user, "buy");
+
+        user2.takeTransaction(transaction);
+
+        try {
+            user2.transferReceived(transaction);
+          }
+          catch (InvalidUserReceivingTransferException e) {
+          }
+        assertEquals(user.getTransactionsPublished().get(0), user2.getTransactionsTaken().get(0));
+        assertTrue(transaction.isTakenState());
+    }
+
+    @Test
+    public void PublisherCancelsTransactionWhenIsJustPublishedAndTransferIsRemovedFromsHisTransfersPublished(){
+        Crypto bnb = new Crypto("BNB"); 
+        User user = new User("Juan", "surname", "email", "adress", "password" , 12345678 , 98765432);
+
         Transaction transaction = new Transaction(bnb,  0.5,  user, "buy");
 
         user.cancelTransaction(transaction);

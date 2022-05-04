@@ -60,7 +60,7 @@ public class User {
         if (transaction.getPublisher().getEmail() == this.getEmail()){
             transaction.transferReceived();
         }else{
-            //throw new InvalidUserReceivingTransferException("Error this user cannot set this transfer as received");
+            throw new InvalidUserReceivingTransferException("Error this user cannot set this transfer as received");
         }
         
     }
