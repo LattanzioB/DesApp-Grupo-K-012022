@@ -6,11 +6,11 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 import org.junit.jupiter.api.Test;
 
-import model.Crypto;
-import model.InvalidUserReceivingTransferException;
-import model.SystemManager;
-import model.Transaction;
-import model.User;
+import ar.edu.unq.desapp.grupoK.backenddesappapi.exception.InvalidUserReceivingTransferException;
+import ar.edu.unq.desapp.grupoK.backenddesappapi.model.Crypto;
+import ar.edu.unq.desapp.grupoK.backenddesappapi.model.SystemManager;
+import ar.edu.unq.desapp.grupoK.backenddesappapi.model.Transaction;
+import ar.edu.unq.desapp.grupoK.backenddesappapi.model.User;
 
 public class ModelTest {
     

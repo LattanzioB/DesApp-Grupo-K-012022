@@ -1,4 +1,4 @@
-package model;
+package ar.edu.unq.desapp.grupoK.backenddesappapi.exception;
 
 public class InvalidUserReceivingTransferException extends Exception {
     

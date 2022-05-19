@@ -1,4 +1,4 @@
-package model;
+package ar.edu.unq.desapp.grupoK.backenddesappapi.model;
 
 public abstract class TransactionState {
     protected Transaction transaction;

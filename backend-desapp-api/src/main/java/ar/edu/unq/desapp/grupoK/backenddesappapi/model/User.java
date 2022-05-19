@@ -1,11 +1,23 @@
-package model;
+package ar.edu.unq.desapp.grupoK.backenddesappapi.model;
+
+import javax.persistence.*;
+
+import ar.edu.unq.desapp.grupoK.backenddesappapi.exception.InvalidUserReceivingTransferException;
 
 import java.util.ArrayList;
 
+@Entity
 public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+    
     private String name;
     private String surname;
+
+    @Column(unique = true)
     private String email;
+
     private String adress;
     private String password;
     private Integer cvu;
