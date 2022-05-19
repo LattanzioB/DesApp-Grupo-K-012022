@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private Integer id;
     
     private String name;
     private String surname;
@@ -25,6 +25,62 @@ public class User {
     private Integer popularity;
     private ArrayList<Transaction> transactionsPublished;
     private ArrayList<Transaction> transactionsTaken;
+
+    public User(){
+        
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getAdress() {
+        return adress;
+    }
+
+    public void setAdress(String adress) {
+        this.adress = adress;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Integer getCvu() {
+        return cvu;
+    }
+
+    public void setCvu(Integer cvu) {
+        this.cvu = cvu;
+    }
+
+    public Integer getWallet() {
+        return wallet;
+    }
+
+    public void setWallet(Integer wallet) {
+        this.wallet = wallet;
+    }
 
     public User(String name, String surname, String email, String adress, String password, Integer cvu, Integer wallet){
         this.name = name;

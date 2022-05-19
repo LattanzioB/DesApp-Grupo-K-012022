@@ -1,6 +1,7 @@
 package ar.edu.unq.desapp.grupoK.backenddesappapi.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -20,4 +21,18 @@ public class UserService {
     public Iterable<User> getUsers(){
         return userRepository.findAll();
     }
+
+    @Transactional
+    public Optional<User> getUser(Integer id){
+        return userRepository.findById(id);
+    }
+
+    @Transactional
+    public User save(User newUser) {
+        //VALIDACION
+        return userRepository.save(newUser);
+    }
+
+
+
 }
