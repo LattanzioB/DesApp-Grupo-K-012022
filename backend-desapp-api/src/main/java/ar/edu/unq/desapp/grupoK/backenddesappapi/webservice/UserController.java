@@ -4,6 +4,8 @@ import java.rmi.ServerException;
 import java.util.List;
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import ar.edu.unq.desapp.grupoK.backenddesappapi.dtos.UserDto;
 import ar.edu.unq.desapp.grupoK.backenddesappapi.model.User;
 import ar.edu.unq.desapp.grupoK.backenddesappapi.service.UserService;
 
@@ -35,13 +38,24 @@ public class UserController {
     }
 
     @PostMapping()
-    public ResponseEntity<User> create(@RequestBody User newUser) throws ServerException{
-        User user = userService.save(newUser);
+    public ResponseEntity<UserDto> create(@Valid @RequestBody UserDto newUserDto) throws ServerException{
+        User user = new User(newUserDto.getName(), newUserDto.getSurname(), newUserDto.getEmail(), newUserDto.getAdress(), newUserDto.getPassword(), newUserDto.getCvu(), newUserDto.getWallet());
+        userService.save(user);
+
+        UserDto userResponse = new UserDto();
+        userResponse.setName(newUserDto.getName());
+        userResponse.setSurname(newUserDto.getSurname());
+        userResponse.setEmail(newUserDto.getEmail());
+        userResponse.setAdress(newUserDto.getAdress());
+        userResponse.setCvu(newUserDto.getCvu());
+        userResponse.setWallet( newUserDto.getWallet());
+
+
         if (user == null) {
             throw new ServerException(null);
         } else {
 
-            return new ResponseEntity<>(user, HttpStatus.CREATED);
+            return new ResponseEntity<>(userResponse, HttpStatus.CREATED);
         }
     }
 }
