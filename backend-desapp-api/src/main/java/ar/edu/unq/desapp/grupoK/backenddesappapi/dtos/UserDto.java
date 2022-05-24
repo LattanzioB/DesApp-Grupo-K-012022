@@ -31,7 +31,8 @@ public class UserDto {
 
     //Contraseña: al menos 1 minuscula, 1 mayuscula, 1 carac especial y min 6
     //missing regex
-    @Pattern(regexp="(?=.?[A-Z])(?=.?[a-z])(?=.?[#?!@$%^&-]).{6,30}")// - Checks if the annotated string matches the regular expression regex considering the given flag match
+    @Pattern(regexp="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[-_.*()<>+?¡¿!#$%&]).{8,30}$",
+    message="La contraseña debe contener como mínimo 6 caracteres donde debe haber al menos 1 minuscula, 1 mayuscula y 1 caracter especial")// - Checks if the annotated string matches the regular expression regex considering the given flag match
     private String password;
 
 
