@@ -3,6 +3,7 @@ package ar.edu.unq.desapp.grupoK.backenddesappapi.dtos;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 public class UserDto {
@@ -30,7 +31,7 @@ public class UserDto {
 
     //Contraseña: al menos 1 minuscula, 1 mayuscula, 1 carac especial y min 6
     //missing regex
-    //@Pattern(regex=, flags=) - Checks if the annotated string matches the regular expression regex considering the given flag match
+    @Pattern(regexp="(?=.?[A-Z])(?=.?[a-z])(?=.?[#?!@$%^&-]).{6,30}")// - Checks if the annotated string matches the regular expression regex considering the given flag match
     private String password;
 
 
