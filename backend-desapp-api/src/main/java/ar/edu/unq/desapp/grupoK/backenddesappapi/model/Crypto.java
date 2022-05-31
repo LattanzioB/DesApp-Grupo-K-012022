@@ -1,10 +1,15 @@
 package ar.edu.unq.desapp.grupoK.backenddesappapi.model;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+@Entity
 public class Crypto {
     
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
     private String name;
@@ -15,6 +20,9 @@ public class Crypto {
         this.name = name;
         //dummy value, until it can be fetch from a service
         this.quote = quote;
+    }
+
+    public Crypto(String string) {
     }
 
     public double getQuote() {

@@ -5,7 +5,11 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
@@ -28,15 +32,15 @@ public class BinanceApi {
         
         CryptoDto cryptodto = restTemplate.getForObject(url, CryptoDto.class);
 
-        Crypto newcrypto = new Crypto(cryptodto.getName(), cryptodto.getQuote());
+        Crypto newcrypto = new Crypto(cryptodto.getSymbol(), cryptodto.getPrice());
 
         cryptoService.save(newcrypto);
 
         return cryptodto;
     }
 
-    @GetMapping(value = "/fetchAll")
-    public List<CryptoDto> getCryptos(List<String> cryptos){
+    @PostMapping(value = "/fetchAll")
+    public ResponseEntity<List<CryptoDto>> getCryptos(@RequestBody List<String> cryptos){
         String url = "https://api.binance.us/api/v3/ticker/price";
 
         RestTemplate restTemplate = new RestTemplate();
@@ -46,20 +50,20 @@ public class BinanceApi {
         List<CryptoDto> finalCryptos = new ArrayList<CryptoDto>();
 
         for (CryptoDto cryptoDto : cryptodtos) {
-            if(cryptos.contains(cryptoDto.getName())){
+            if(cryptos.contains(cryptoDto.getSymbol())){
                 finalCryptos.add(cryptoDto);
             }
         }
 
         for (CryptoDto cryptoDto2 : finalCryptos) {
-            Crypto newcrypto = new Crypto(cryptoDto2.getName(), cryptoDto2.getQuote());
+            Crypto newcrypto = new Crypto(cryptoDto2.getSymbol(), cryptoDto2.getPrice());
 
             cryptoService.save(newcrypto);
         }
             
 
         
-        return finalCryptos;
+        return new ResponseEntity<>(finalCryptos, HttpStatus.OK);
     }
 }
 
