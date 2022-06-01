@@ -1,5 +1,8 @@
 package ar.edu.unq.desapp.grupoK.backenddesappapi.model;
 
+import javax.persistence.Entity;
+
+@Entity
 public class PublishedState extends TransactionState {
 
     public PublishedState(Transaction transaction) {

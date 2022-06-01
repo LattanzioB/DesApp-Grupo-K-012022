@@ -1,26 +1,54 @@
 package ar.edu.unq.desapp.grupoK.backenddesappapi.model;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+
+import org.hibernate.annotations.ManyToAny;
+
+@Entity
 public class Transaction {
-    private Crypto crypto;
+    
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
+    private String cryptoName;
     private double quantity;
     private double quote;
     private double amountARS;
+    @ManyToOne
+    @JoinColumn(name = "userId", nullable = false, insertable=false, updatable=false)
     private User publisher;
     private String operationType;
+    @OneToOne(cascade = CascadeType.ALL,optional = true)
+    @JoinColumn(name = "transaction", nullable = true, insertable=false, updatable=false)
     private TransactionState transactionState;
+    @OneToOne(cascade = CascadeType.ALL,optional = true)
+    @JoinColumn(name = "transaction", nullable = true, insertable=false, updatable=false)
     private TransactionFrame frame;
+    @ManyToOne
+    @JoinColumn(name = "userId", nullable = true, insertable=false, updatable=false)
     private User consumer;
 
-    public Transaction(Crypto crypto, double quantity, User publisher, String operationType){
-        this.crypto = crypto;
+    public Transaction(String cryptoName, double quantity, User publisher, String operationType, double quote){
+        this.cryptoName = cryptoName;
         this.quantity = quantity;
-        this.quote = crypto.getQuote();
+        this.quote = quote;
         this.amountARS = this.quote * 200;
         this.publisher = publisher;
         this.operationType = operationType;
         this.transactionState = new PublishedState(this);
         publisher.addTransaction(this);
         this.frame = new TransactionFrame(this);
+    }
+
+    public Transaction(Crypto bnb, double d, User user, String string) {
     }
 
     public void takeTransaction(User user){

@@ -15,12 +15,14 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import ar.edu.unq.desapp.grupoK.backenddesappapi.dtos.CryptoDto;
+import ar.edu.unq.desapp.grupoK.backenddesappapi.dtos.CryptosDto;
 import ar.edu.unq.desapp.grupoK.backenddesappapi.model.Crypto;
 import ar.edu.unq.desapp.grupoK.backenddesappapi.service.CryptoService;
 
 @RestController
 @RequestMapping("/binance")
 public class BinanceApi {
+
     @Autowired
     private CryptoService cryptoService;
 
@@ -40,17 +42,17 @@ public class BinanceApi {
     }
 
     @PostMapping(value = "/fetchAll")
-    public ResponseEntity<List<CryptoDto>> getCryptos(@RequestBody List<String> cryptos){
+    public ResponseEntity<ArrayList<CryptoDto>> getCryptos(@RequestBody CryptosDto cryptos){
         String url = "https://api.binance.us/api/v3/ticker/price";
 
         RestTemplate restTemplate = new RestTemplate();
         
         CryptoDto[] cryptodtos = restTemplate.getForObject(url, CryptoDto[].class);
 
-        List<CryptoDto> finalCryptos = new ArrayList<CryptoDto>();
+        ArrayList<CryptoDto> finalCryptos = new ArrayList<CryptoDto>();
 
         for (CryptoDto cryptoDto : cryptodtos) {
-            if(cryptos.contains(cryptoDto.getSymbol())){
+            if(cryptos.containsCrypto(cryptoDto.getSymbol())){
                 finalCryptos.add(cryptoDto);
             }
         }
@@ -63,8 +65,9 @@ public class BinanceApi {
             
 
         
-        return new ResponseEntity<>(finalCryptos, HttpStatus.OK);
+        return new ResponseEntity<ArrayList<CryptoDto>>(finalCryptos, HttpStatus.OK);
     }
+
 }
 
 

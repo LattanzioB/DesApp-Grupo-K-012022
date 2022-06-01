@@ -5,12 +5,13 @@ import javax.persistence.*;
 import ar.edu.unq.desapp.grupoK.backenddesappapi.exception.InvalidUserReceivingTransferException;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    private Integer userId;
     
     private String name;
     private String surname;
@@ -23,7 +24,8 @@ public class User {
     private Integer cvu;
     private Integer wallet;
     private Integer popularity;
-    private ArrayList<Transaction> transactionsPublished;
+    @OneToMany
+    private List<Transaction> transactionsPublished;
     private ArrayList<Transaction> transactionsTaken;
 
     public User(){
@@ -103,7 +105,7 @@ public class User {
         return this.email;
     }
 
-    public ArrayList<Transaction> getTransactionsPublished() {
+    public List<Transaction> getTransactionsPublished() {
         return this.transactionsPublished;
     }
 

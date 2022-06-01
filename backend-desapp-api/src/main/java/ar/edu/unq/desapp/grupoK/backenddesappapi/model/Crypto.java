@@ -25,7 +25,14 @@ public class Crypto {
     public Crypto(String string) {
     }
 
+    public Crypto() {
+    }
+
     public double getQuote() {
         return this.quote;
+    }
+
+    public String getName() {
+        return this.name;
     }
 }
