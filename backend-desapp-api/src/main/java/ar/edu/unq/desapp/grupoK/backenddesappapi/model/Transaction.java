@@ -1,6 +1,7 @@
 package ar.edu.unq.desapp.grupoK.backenddesappapi.model;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -24,6 +25,7 @@ public class Transaction {
     private double amountARS;
     @ManyToOne
     @JoinColumn(name = "userId", nullable = false, insertable=false, updatable=false)
+    //@Column(name= "PUBLISHER")
     private User publisher;
     private String operationType;
     @OneToOne(cascade = CascadeType.ALL,optional = true)
@@ -34,6 +36,7 @@ public class Transaction {
     private TransactionFrame frame;
     @ManyToOne
     @JoinColumn(name = "userId", nullable = true, insertable=false, updatable=false)
+    //@Column(name= "CONSUMER")
     private User consumer;
 
     public Transaction(String cryptoName, double quantity, User publisher, String operationType, double quote){
@@ -46,6 +49,22 @@ public class Transaction {
         this.transactionState = new PublishedState(this);
         publisher.addTransaction(this);
         this.frame = new TransactionFrame(this);
+    }
+
+    public String getCryptoName() {
+        return cryptoName;
+    }
+
+    public double getQuantity() {
+        return quantity;
+    }
+
+    public double getQuote() {
+        return quote;
+    }
+
+    public String getOperationType() {
+        return operationType;
     }
 
     public Transaction(Crypto bnb, double d, User user, String string) {

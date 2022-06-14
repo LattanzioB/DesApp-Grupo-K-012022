@@ -39,7 +39,10 @@ public class CryptoService {
 
     public Optional<Crypto> getCryptoByName(String cryptoName) {
         var crypto  = StreamSupport.stream(cryptoRepository.findAll().spliterator(), false)
-        .map((o) -> Optional.of(o)).collect(Collectors.toList()).get(0); 
-        return crypto;
+        .filter(c -> c.getName() == cryptoName)
+        .map((o) -> Optional.of(o)).collect(Collectors.toList());
+        var crypto2 = crypto.get(0);
+        
+        return crypto2;
     }
 }

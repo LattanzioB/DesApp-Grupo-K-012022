@@ -4,7 +4,9 @@ import java.rmi.ServerException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -36,6 +38,7 @@ public class TransactionController {
 
     @Autowired
     private CryptoService cryptoService;
+    
 
     @PostMapping
     public ResponseEntity<TransactionDto> publishTransaction(@RequestBody TransactionDto transaction) throws ServerException{
@@ -44,6 +47,7 @@ public class TransactionController {
         Transaction newTransaction = new Transaction(crypto.get().getName(),
         transaction.getQuantity(), user.get(), transaction.getOperationType(), crypto.get().getQuote());
         transactionService.save(newTransaction);
+        userService.save(user.get());
 
 
         if (user == null || crypto == null) {
@@ -54,6 +58,23 @@ public class TransactionController {
         }
     }
 
+    @GetMapping(value = "/active")
+    public List<TransactionDto> getActiveTransactions(){
+        ArrayList<TransactionDto> activeTransactionsList= new ArrayList<>();
+        List<Optional<Transaction>> activeTransactions  = StreamSupport.stream(transactionService.getTransactions().spliterator(), false)
+        .filter(t -> !t.isReceivedState())
+        .map((o) -> Optional.of(o)).collect(Collectors.toList());
+        for(int i = activeTransactions.size(); i >= 1; i--){
+            var transaction = activeTransactions.get(i).get();
+            var transactionDto = new TransactionDto();
+            transactionDto.setCryptoName(transaction.getCryptoName());
+            transactionDto.setPublisherId(transaction.getPublisher().getUserId());
+            transactionDto.setOperationType(transaction.getOperationType());
+            transactionDto.setQuantity(transaction.getQuantity());
+            activeTransactionsList.add(transactionDto);
+        }
+        return activeTransactionsList;
+    }
 }
 
 

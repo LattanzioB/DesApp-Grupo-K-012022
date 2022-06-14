@@ -11,8 +11,11 @@ import java.util.List;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+
     private Integer userId;
     
+
+
     private String name;
     private String surname;
 
@@ -26,10 +29,15 @@ public class User {
     private Integer popularity;
     @OneToMany
     private List<Transaction> transactionsPublished;
-    private ArrayList<Transaction> transactionsTaken;
+    @OneToMany
+    private List<Transaction> transactionsTaken;
 
     public User(){
         
+    }
+
+    public Integer getUserId() {
+        return userId;
     }
 
     public String getName() {
@@ -109,7 +117,7 @@ public class User {
         return this.transactionsPublished;
     }
 
-    public ArrayList<Transaction> getTransactionsTaken() {
+    public List<Transaction> getTransactionsTaken() {
         return this.transactionsTaken;
     }
 
