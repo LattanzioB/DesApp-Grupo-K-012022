@@ -37,12 +37,15 @@ public class CryptoService {
         return cryptoRepository.save(newCrypto);
     }
 
+    @Transactional
     public Optional<Crypto> getCryptoByName(String cryptoName) {
-        var crypto  = StreamSupport.stream(cryptoRepository.findAll().spliterator(), false)
-        .filter(c -> c.getName() == cryptoName)
-        .map((o) -> Optional.of(o)).collect(Collectors.toList());
-        var crypto2 = crypto.get(0);
-        
-        return crypto2;
+        var cruptos = cryptoRepository.findAll();
+        Optional<Crypto> cryptores = Optional.empty(); 
+        for (Crypto crypto : cruptos) {
+            if (crypto.getName().equals(cryptoName)){
+                cryptores = Optional.of(crypto);
+            }
+        }
+        return cryptores;
     }
 }
