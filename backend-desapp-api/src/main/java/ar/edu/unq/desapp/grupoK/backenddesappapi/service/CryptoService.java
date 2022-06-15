@@ -39,9 +39,9 @@ public class CryptoService {
 
     @Transactional
     public Optional<Crypto> getCryptoByName(String cryptoName) {
-        var cruptos = cryptoRepository.findAll();
+        Iterable<Crypto> cryptos = cryptoRepository.findAll();
         Optional<Crypto> cryptores = Optional.empty(); 
-        for (Crypto crypto : cruptos) {
+        for (Crypto crypto : cryptos) {
             if (crypto.getName().equals(cryptoName)){
                 cryptores = Optional.of(crypto);
             }

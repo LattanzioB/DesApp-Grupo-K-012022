@@ -9,6 +9,9 @@ public class PublishedState extends TransactionState {
         super(transaction);
     }
 
+    public PublishedState() {
+        super();
+    }
 
     @Override
     public void transferTake() {

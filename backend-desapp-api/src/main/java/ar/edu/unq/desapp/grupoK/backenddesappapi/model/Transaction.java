@@ -23,16 +23,16 @@ public class Transaction {
     private double quantity;
     private double quote;
     private double amountARS;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL,optional = true)
     @JoinColumn(name = "userId", nullable = false, insertable=false, updatable=false)
     //@Column(name= "PUBLISHER")
     private User publisher;
     private String operationType;
     @OneToOne(cascade = CascadeType.ALL,optional = true)
-    @JoinColumn(name = "transaction", nullable = true, insertable=false, updatable=false)
+    @JoinColumn(name = "transactionState", nullable = true, insertable=false, updatable=false)
     private TransactionState transactionState;
     @OneToOne(cascade = CascadeType.ALL,optional = true)
-    @JoinColumn(name = "transaction", nullable = true, insertable=false, updatable=false)
+    @JoinColumn(name = "transactionFrame", nullable = true, insertable=false, updatable=false)
     private TransactionFrame frame;
     @ManyToOne
     @JoinColumn(name = "userId", nullable = true, insertable=false, updatable=false)
@@ -49,6 +49,50 @@ public class Transaction {
         this.transactionState = new PublishedState(this);
         publisher.addTransaction(this);
         this.frame = new TransactionFrame(this);
+    }
+
+    public Transaction(){
+
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public void setCryptoName(String cryptoName) {
+        this.cryptoName = cryptoName;
+    }
+
+    public void setQuantity(double quantity) {
+        this.quantity = quantity;
+    }
+
+    public void setQuote(double quote) {
+        this.quote = quote;
+    }
+
+    public void setAmountARS(double amountARS) {
+        this.amountARS = amountARS;
+    }
+
+    public void setPublisher(User publisher) {
+        this.publisher = publisher;
+    }
+
+    public void setOperationType(String operationType) {
+        this.operationType = operationType;
+    }
+
+    public void setTransactionState(TransactionState transactionState) {
+        this.transactionState = transactionState;
+    }
+
+    public void setFrame(TransactionFrame frame) {
+        this.frame = frame;
+    }
+
+    public void setConsumer(User consumer) {
+        this.consumer = consumer;
     }
 
     public String getCryptoName() {

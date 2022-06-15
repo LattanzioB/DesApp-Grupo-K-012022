@@ -22,6 +22,17 @@ public abstract class TransactionState {
         this.transaction = transaction;
     }
 
+    public TransactionState(){
+    }
+
+    public void setTransaction(Transaction transaction){
+        this.transaction = transaction;
+    }
+
+    public Transaction getTransaction(){
+        return this.transaction;
+    }
+
     public abstract void transferTake();
     public abstract void transferReceived();
     public abstract void cancelTransaction(User user);

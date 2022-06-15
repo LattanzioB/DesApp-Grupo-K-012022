@@ -17,7 +17,7 @@ public class TransactionFrame {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     @OneToOne(cascade = CascadeType.ALL,optional = true)
-    @JoinColumn(name = "frame", nullable = true, insertable=false, updatable=false)
+    @JoinColumn(name = "transactionFrame", nullable = true, insertable=false, updatable=false)
     private Transaction transaction;
     private Date publishedHour;
     private Integer operationsQuantity;

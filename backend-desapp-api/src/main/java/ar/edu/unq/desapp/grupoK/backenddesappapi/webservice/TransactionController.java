@@ -4,6 +4,7 @@ import java.rmi.ServerException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
@@ -18,12 +19,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import ar.edu.unq.desapp.grupoK.backenddesappapi.dtos.TakeTransactionDto;
 import ar.edu.unq.desapp.grupoK.backenddesappapi.dtos.TransactionDto;
 import ar.edu.unq.desapp.grupoK.backenddesappapi.model.Crypto;
 import ar.edu.unq.desapp.grupoK.backenddesappapi.model.Transaction;
+import ar.edu.unq.desapp.grupoK.backenddesappapi.model.TransactionState;
 import ar.edu.unq.desapp.grupoK.backenddesappapi.model.User;
 import ar.edu.unq.desapp.grupoK.backenddesappapi.service.CryptoService;
 import ar.edu.unq.desapp.grupoK.backenddesappapi.service.TransactionService;
+import ar.edu.unq.desapp.grupoK.backenddesappapi.service.TransactionStateService;
 import ar.edu.unq.desapp.grupoK.backenddesappapi.service.UserService;
 
 @RestController
@@ -38,6 +42,9 @@ public class TransactionController {
 
     @Autowired
     private CryptoService cryptoService;
+
+    @Autowired
+    private TransactionStateService stateService;
     
 
     @PostMapping
@@ -60,20 +67,31 @@ public class TransactionController {
 
     @GetMapping(value = "/active")
     public List<TransactionDto> getActiveTransactions(){
-        ArrayList<TransactionDto> activeTransactionsList= new ArrayList<>();
-        List<Optional<Transaction>> activeTransactions  = StreamSupport.stream(transactionService.getTransactions().spliterator(), false)
-        .filter(t -> !t.isReceivedState())
-        .map((o) -> Optional.of(o)).collect(Collectors.toList());
-        for(int i = activeTransactions.size(); i >= 1; i--){
-            var transaction = activeTransactions.get(i).get();
+        ArrayList<TransactionDto> activeTransactionsList= new ArrayList<TransactionDto>();
+        Iterable<Optional<Transaction>> activeTransactions = StreamSupport.stream(stateService.getStates().spliterator(), false)
+        .filter(ts -> ts.isPublished() || ts.isTaken())
+        .map((o) -> Optional.of(o.getTransaction())).collect(Collectors.toList());
+        for(Optional<Transaction> transaction: activeTransactions){
+            Transaction newtransaction = transaction.get();
             var transactionDto = new TransactionDto();
-            transactionDto.setCryptoName(transaction.getCryptoName());
-            transactionDto.setPublisherId(transaction.getPublisher().getUserId());
-            transactionDto.setOperationType(transaction.getOperationType());
-            transactionDto.setQuantity(transaction.getQuantity());
+            transactionDto.setCryptoName(newtransaction.getCryptoName());
+            transactionDto.setPublisherId(newtransaction.getPublisher().getUserId());
+            transactionDto.setOperationType(newtransaction.getOperationType());
+            transactionDto.setQuantity(newtransaction.getQuantity());
             activeTransactionsList.add(transactionDto);
         }
         return activeTransactionsList;
+    }
+
+
+    @PostMapping(value = "/take")
+    public ResponseEntity<TakeTransactionDto> publishTransaction(@RequestBody TakeTransactionDto takeTransactionDto){
+        Optional<User> consumer = userService.getUser(takeTransactionDto.getConsumerId());
+        Optional<Transaction> transaction = transactionService.getTransaction(takeTransactionDto.getTransactionId());
+        transaction.get().takeTransaction(consumer.get());
+        userService.save(consumer.get());
+        transactionService.save(transaction.get());
+        return new ResponseEntity<>(takeTransactionDto, HttpStatus.OK);
     }
 }
 

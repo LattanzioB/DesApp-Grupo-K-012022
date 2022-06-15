@@ -28,8 +28,10 @@ public class User {
     private Integer wallet;
     private Integer popularity;
     @OneToMany
+    @JoinColumn(name = "userId", nullable = true, insertable=false, updatable=true)
     private List<Transaction> transactionsPublished;
     @OneToMany
+    @JoinColumn(name = "userId", nullable = true, insertable=false, updatable=true)
     private List<Transaction> transactionsTaken;
 
     public User(){
