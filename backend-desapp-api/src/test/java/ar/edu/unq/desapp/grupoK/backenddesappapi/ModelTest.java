@@ -10,13 +10,13 @@ import ar.edu.unq.desapp.grupoK.backenddesappapi.exception.InvalidUserReceivingT
 import ar.edu.unq.desapp.grupoK.backenddesappapi.model.Crypto;
 import ar.edu.unq.desapp.grupoK.backenddesappapi.model.SystemManager;
 import ar.edu.unq.desapp.grupoK.backenddesappapi.model.Transaction;
-import ar.edu.unq.desapp.grupoK.backenddesappapi.model.User;
+import ar.edu.unq.desapp.grupoK.backenddesappapi.model.ModelUser;
 
 public class ModelTest {
     
     @Test
     public void systemManagerCreatesUser(){
-        User user = new User("Juan", "surname", "email", "adress", "password" , 12345678 , 98765432);
+        ModelUser user = new ModelUser("Juan", "surname", "email", "adress", "password" , 12345678 , 98765432);
         SystemManager system = new SystemManager();
         system.addUser(user);
         assertEquals(system.getUsers().size(), 1);
@@ -25,7 +25,7 @@ public class ModelTest {
     @Test
     public void UserCreatesTransactionAndTransactionStateIsPublished(){
         Crypto bnb = new Crypto("BNB"); 
-        User user = new User("Juan", "surname", "email", "adress", "password" , 12345678 , 98765432);
+        ModelUser user = new ModelUser("Juan", "surname", "email", "adress", "password" , 12345678 , 98765432);
         Transaction transaction = new Transaction(bnb,  0.5,  user, "buy");
         
         assertEquals(user.getTransactionsPublished().size(), 1);
@@ -35,8 +35,8 @@ public class ModelTest {
     @Test
     public void ConsumerCanTakeATransactionAndTransactionChangeStateAndTheConsumerHasANewTransactionTaken(){
         Crypto bnb = new Crypto("BNB"); 
-        User user = new User("Juan", "surname", "email", "adress", "password" , 12345678 , 98765432);
-        User user2 = new User("Juan", "surname", "email2", "adress", "password" , 12345678 , 98765432);
+        ModelUser user = new ModelUser("Juan", "surname", "email", "adress", "password" , 12345678 , 98765432);
+        ModelUser user2 = new ModelUser("Juan", "surname", "email2", "adress", "password" , 12345678 , 98765432);
         
         Transaction transaction = new Transaction(bnb,  0.5,  user, "buy");
 
@@ -50,8 +50,8 @@ public class ModelTest {
     @Test
     public void PublisherCanReceiveATransactionAndTransactionStateChangeToReceived() throws InvalidUserReceivingTransferException{
         Crypto bnb = new Crypto("BNB"); 
-        User user = new User("Juan", "surname", "email", "adress", "password" , 12345678 , 98765432);
-        User user2 = new User("Juan", "surname", "email2", "adress", "password" , 12345678 , 98765432);
+        ModelUser user = new ModelUser("Juan", "surname", "email", "adress", "password" , 12345678 , 98765432);
+        ModelUser user2 = new ModelUser("Juan", "surname", "email2", "adress", "password" , 12345678 , 98765432);
         
         Transaction transaction = new Transaction(bnb,  0.5,  user, "buy");
 
@@ -66,8 +66,8 @@ public class ModelTest {
     @Test
     public void ConsumerCannotReceiveATransactionAndTransactionStateDoenstChangeToReceived() throws InvalidUserReceivingTransferException{
         Crypto bnb = new Crypto("BNB"); 
-        User user = new User("Juan", "surname", "email", "adress", "password" , 12345678 , 98765432);
-        User user2 = new User("Juan", "surname", "email2", "adress", "password" , 12345678 , 98765432);
+        ModelUser user = new ModelUser("Juan", "surname", "email", "adress", "password" , 12345678 , 98765432);
+        ModelUser user2 = new ModelUser("Juan", "surname", "email2", "adress", "password" , 12345678 , 98765432);
         
         Transaction transaction = new Transaction(bnb,  0.5,  user, "buy");
 
@@ -85,7 +85,7 @@ public class ModelTest {
     @Test
     public void PublisherCancelsTransactionWhenIsJustPublishedAndTransferIsRemovedFromsHisTransfersPublished(){
         Crypto bnb = new Crypto("BNB"); 
-        User user = new User("Juan", "surname", "email", "adress", "password" , 12345678 , 98765432);
+        ModelUser user = new ModelUser("Juan", "surname", "email", "adress", "password" , 12345678 , 98765432);
 
         Transaction transaction = new Transaction(bnb,  0.5,  user, "buy");
 
@@ -98,8 +98,8 @@ public class ModelTest {
     @Test
     public void PublisherCancelsTransactionWhenIsJustTakenAndTransferIsRemovedFromsHisTransfersPublishedAndHisPopularityIsReduced(){
         Crypto bnb = new Crypto("BNB"); 
-        User user = new User("Juan", "surname", "email", "adress", "password" , 12345678 , 98765432);
-        User user2 = new User("Juan", "surname", "email2", "adress", "password" , 12345678 , 98765432);
+        ModelUser user = new ModelUser("Juan", "surname", "email", "adress", "password" , 12345678 , 98765432);
+        ModelUser user2 = new ModelUser("Juan", "surname", "email2", "adress", "password" , 12345678 , 98765432);
         
         Transaction transaction = new Transaction(bnb,  0.5,  user, "buy");
 
@@ -115,8 +115,8 @@ public class ModelTest {
     @Test
     public void ConsumerCancelsTransactionWhenIsJustTakenAndTransferIsRemovedFromsHisTransfersTakenAndHisPopularityIsReducedAndTransferGoesBackToPublishedState(){
         Crypto bnb = new Crypto("BNB"); 
-        User user = new User("Juan", "surname", "email", "adress", "password" , 12345678 , 98765432);
-        User user2 = new User("Juan", "surname", "email2", "adress", "password" , 12345678 , 98765432);
+        ModelUser user = new ModelUser("Juan", "surname", "email", "adress", "password" , 12345678 , 98765432);
+        ModelUser user2 = new ModelUser("Juan", "surname", "email2", "adress", "password" , 12345678 , 98765432);
         
         Transaction transaction = new Transaction(bnb,  0.5,  user, "buy");
 

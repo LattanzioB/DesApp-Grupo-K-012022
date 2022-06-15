@@ -8,9 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-public class User {
+public class ModelUser {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
 
     private Integer userId;
     
@@ -34,7 +34,7 @@ public class User {
     @JoinColumn(name = "userId", nullable = true, insertable=false, updatable=true)
     private List<Transaction> transactionsTaken;
 
-    public User(){
+    public ModelUser(){
         
     }
 
@@ -94,7 +94,7 @@ public class User {
         this.wallet = wallet;
     }
 
-    public User(String name, String surname, String email, String adress, String password, Integer cvu, Integer wallet){
+    public ModelUser(String name, String surname, String email, String adress, String password, Integer cvu, Integer wallet){
         this.name = name;
         this.surname = surname;
         this.email = email;

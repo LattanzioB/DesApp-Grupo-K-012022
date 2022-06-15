@@ -9,6 +9,10 @@ public class ReceivedState extends TransactionState{
         super(transaction);
     }
 
+    public ReceivedState() {
+        super();
+    }
+
     @Override
     public void transferTake() {
         // error
@@ -22,7 +26,7 @@ public class ReceivedState extends TransactionState{
     }
 
     @Override
-    public void cancelTransaction(User user) {
+    public void cancelTransaction(ModelUser user) {
         //error
         
     }

@@ -15,7 +15,8 @@ public class PublishedState extends TransactionState {
 
     @Override
     public void transferTake() {
-        this.transaction.changeState(new TakenState(super.transaction));
+        
+        super.transaction.changeState(new TakenState(super.getTransaction()));
         
     }
 
@@ -26,7 +27,7 @@ public class PublishedState extends TransactionState {
     }
 
     @Override
-    public void cancelTransaction(User user) {
+    public void cancelTransaction(ModelUser user) {
         user.deleteTransactionPublished(this.transaction);
         
     }
@@ -48,5 +49,6 @@ public class PublishedState extends TransactionState {
     public boolean isReceived() {
         return false;
     }
+
     
 }

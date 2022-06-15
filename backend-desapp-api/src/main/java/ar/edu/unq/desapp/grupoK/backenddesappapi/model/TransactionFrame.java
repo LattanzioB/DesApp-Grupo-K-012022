@@ -14,10 +14,10 @@ import javax.persistence.OneToOne;
 public class TransactionFrame {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @OneToOne(cascade = CascadeType.ALL,optional = true)
-    @JoinColumn(name = "transactionFrame", nullable = true, insertable=false, updatable=false)
+    @JoinColumn(name = "transactionId", nullable = true, insertable=false, updatable=true)
     private Transaction transaction;
     private Date publishedHour;
     private Integer operationsQuantity;
@@ -30,6 +30,9 @@ public class TransactionFrame {
         this.popularity = this.getUserPopularity();
     }
 
+    public TransactionFrame(){
+
+    }
     private Integer getUserPopularity() {
 
         return this.transaction.getPublisher().getPopularity();

@@ -10,6 +10,10 @@ public class TakenState extends TransactionState{
         
     }
 
+    public TakenState() {
+        super();
+        
+    }
     @Override
     public void transferTake() {
         //error
@@ -22,7 +26,7 @@ public class TakenState extends TransactionState{
     }
 
     @Override
-    public void cancelTransaction(User user) {
+    public void cancelTransaction(ModelUser user) {
         if (transaction.getPublisher().getEmail() == user.getEmail()){
             user.discountPoints();
             user.deleteTransactionPublished(this.transaction);

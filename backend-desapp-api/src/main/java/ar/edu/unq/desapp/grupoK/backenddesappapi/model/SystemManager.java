@@ -5,17 +5,17 @@ import java.util.ArrayList;
 
 public class SystemManager {
     
-    private ArrayList<User> users;
+    private ArrayList<ModelUser> users;
 
     public SystemManager(){
-        this.users = new ArrayList<User>();
+        this.users = new ArrayList<ModelUser>();
     }
 
-    public void addUser(User user){
+    public void addUser(ModelUser user){
         this.users.add(user);
     }
 
-    public ArrayList<User> getUsers(){
+    public ArrayList<ModelUser> getUsers(){
         return this.users;
     }
 }

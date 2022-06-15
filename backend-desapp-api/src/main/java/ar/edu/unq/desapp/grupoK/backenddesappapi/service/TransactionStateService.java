@@ -39,4 +39,9 @@ public class TransactionStateService {
         //VALIDACION
         return transactionRepository.save(newState);
     }
+
+    @Transactional
+    public void deleteState(Integer idInteger) {
+        transactionRepository.deleteById(idInteger);
+    }
 }

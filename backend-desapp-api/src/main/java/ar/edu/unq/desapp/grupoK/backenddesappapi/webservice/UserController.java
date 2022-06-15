@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import ar.edu.unq.desapp.grupoK.backenddesappapi.dtos.UserDto;
-import ar.edu.unq.desapp.grupoK.backenddesappapi.model.User;
+import ar.edu.unq.desapp.grupoK.backenddesappapi.model.ModelUser;
 import ar.edu.unq.desapp.grupoK.backenddesappapi.service.UserService;
 
 @RestController
@@ -28,18 +28,18 @@ public class UserController {
     private UserService userService;
 
     @GetMapping
-    public List<User> getUsers(){
-        return (List<User>) userService.getUsers();
+    public List<ModelUser> getUsers(){
+        return (List<ModelUser>) userService.getUsers();
     }
 
     @GetMapping(value = "/{id}")
-    public Optional<User> getUserByID(Integer id){
-        return (Optional<User>) userService.getUser(id);
+    public Optional<ModelUser> getUserByID(Integer id){
+        return (Optional<ModelUser>) userService.getUser(id);
     }
 
     @PostMapping()
     public ResponseEntity<UserDto> create(@Valid @RequestBody UserDto newUserDto) throws ServerException{
-        User user = new User(newUserDto.getName(), newUserDto.getSurname(), newUserDto.getEmail(), newUserDto.getAdress(), newUserDto.getPassword(), newUserDto.getCvu(), newUserDto.getWallet());
+        ModelUser user = new ModelUser(newUserDto.getName(), newUserDto.getSurname(), newUserDto.getEmail(), newUserDto.getAdress(), newUserDto.getPassword(), newUserDto.getCvu(), newUserDto.getWallet());
         userService.save(user);
 
         UserDto userResponse = new UserDto();

@@ -17,29 +17,34 @@ import org.hibernate.annotations.ManyToAny;
 public class Transaction {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer transactionId;
     private String cryptoName;
     private double quantity;
     private double quote;
     private double amountARS;
+
     @ManyToOne(cascade = CascadeType.ALL,optional = true)
     @JoinColumn(name = "userId", nullable = false, insertable=false, updatable=false)
     //@Column(name= "PUBLISHER")
-    private User publisher;
-    private String operationType;
-    @OneToOne(cascade = CascadeType.ALL,optional = true)
-    @JoinColumn(name = "transactionState", nullable = true, insertable=false, updatable=false)
-    private TransactionState transactionState;
-    @OneToOne(cascade = CascadeType.ALL,optional = true)
-    @JoinColumn(name = "transactionFrame", nullable = true, insertable=false, updatable=false)
-    private TransactionFrame frame;
-    @ManyToOne
-    @JoinColumn(name = "userId", nullable = true, insertable=false, updatable=false)
-    //@Column(name= "CONSUMER")
-    private User consumer;
+    private ModelUser publisher;
 
-    public Transaction(String cryptoName, double quantity, User publisher, String operationType, double quote){
+    private String operationType;
+    
+    @OneToOne(cascade = CascadeType.ALL,optional = true)
+    @JoinColumn(name = "transactionId", nullable = true, insertable=false, updatable=true)
+    private TransactionState transactionState;
+
+    @OneToOne(cascade = CascadeType.ALL,optional = true)
+    @JoinColumn(name = "transactionId", nullable = true, insertable=false, updatable=true)
+    private TransactionFrame frame;
+
+    @ManyToOne
+    @JoinColumn(name = "userId", nullable = true, insertable=false, updatable=true)
+    //@Column(name= "CONSUMER")
+    private ModelUser consumer;
+
+    public Transaction(String cryptoName, double quantity, ModelUser publisher, String operationType, double quote){
         this.cryptoName = cryptoName;
         this.quantity = quantity;
         this.quote = quote;
@@ -55,8 +60,12 @@ public class Transaction {
 
     }
 
+    public TransactionState getTransactionState(){
+        return this.transactionState;
+    }
+    
     public void setId(Integer id) {
-        this.id = id;
+        this.transactionId = id;
     }
 
     public void setCryptoName(String cryptoName) {
@@ -75,7 +84,7 @@ public class Transaction {
         this.amountARS = amountARS;
     }
 
-    public void setPublisher(User publisher) {
+    public void setPublisher(ModelUser publisher) {
         this.publisher = publisher;
     }
 
@@ -91,7 +100,7 @@ public class Transaction {
         this.frame = frame;
     }
 
-    public void setConsumer(User consumer) {
+    public void setConsumer(ModelUser consumer) {
         this.consumer = consumer;
     }
 
@@ -111,10 +120,10 @@ public class Transaction {
         return operationType;
     }
 
-    public Transaction(Crypto bnb, double d, User user, String string) {
+    public Transaction(Crypto bnb, double d, ModelUser user, String string) {
     }
 
-    public void takeTransaction(User user){
+    public void takeTransaction(ModelUser user){
         this.transactionState.transferTake();
         this.consumer = user;
     }
@@ -127,7 +136,7 @@ public class Transaction {
         this.transactionState = transactionState;
     }
 
-    public User getPublisher() {
+    public ModelUser getPublisher() {
         return this.publisher;
     }
 
@@ -143,11 +152,11 @@ public class Transaction {
     }
 
 
-    public User getConsumer() {
+    public ModelUser getConsumer() {
         return this.consumer;
     }
 
-    public void cancelTransaction(User user) {
+    public void cancelTransaction(ModelUser user) {
         this.transactionState.cancelTransaction(user);
     }
 

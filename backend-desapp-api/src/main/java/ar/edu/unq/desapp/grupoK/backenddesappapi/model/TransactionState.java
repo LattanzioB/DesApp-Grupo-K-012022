@@ -12,11 +12,15 @@ import javax.persistence.OneToOne;
 public abstract class TransactionState {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer stateId;
     @OneToOne(cascade = CascadeType.ALL,optional = true)
-    @JoinColumn(name = "transactionState", nullable = true, insertable=false, updatable=true)
+    @JoinColumn(name = "transactionId", nullable = true, insertable=false, updatable=true)
     protected Transaction transaction;
+
+    public Integer getId(){
+        return this.stateId;
+    }
 
     public TransactionState(Transaction transaction){
         this.transaction = transaction;
@@ -35,7 +39,7 @@ public abstract class TransactionState {
 
     public abstract void transferTake();
     public abstract void transferReceived();
-    public abstract void cancelTransaction(User user);
+    public abstract void cancelTransaction(ModelUser user);
     public abstract boolean isPublished();
     public abstract boolean isTaken();
     public abstract boolean isReceived();

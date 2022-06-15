@@ -24,7 +24,7 @@ import ar.edu.unq.desapp.grupoK.backenddesappapi.dtos.TransactionDto;
 import ar.edu.unq.desapp.grupoK.backenddesappapi.model.Crypto;
 import ar.edu.unq.desapp.grupoK.backenddesappapi.model.Transaction;
 import ar.edu.unq.desapp.grupoK.backenddesappapi.model.TransactionState;
-import ar.edu.unq.desapp.grupoK.backenddesappapi.model.User;
+import ar.edu.unq.desapp.grupoK.backenddesappapi.model.ModelUser;
 import ar.edu.unq.desapp.grupoK.backenddesappapi.service.CryptoService;
 import ar.edu.unq.desapp.grupoK.backenddesappapi.service.TransactionService;
 import ar.edu.unq.desapp.grupoK.backenddesappapi.service.TransactionStateService;
@@ -49,7 +49,7 @@ public class TransactionController {
 
     @PostMapping
     public ResponseEntity<TransactionDto> publishTransaction(@RequestBody TransactionDto transaction) throws ServerException{
-        Optional<User> user = userService.getUser(transaction.getPublisherId());
+        Optional<ModelUser> user = userService.getUser(transaction.getPublisherId());
         Optional<Crypto> crypto = cryptoService.getCryptoByName(transaction.getCryptoName());
         Transaction newTransaction = new Transaction(crypto.get().getName(),
         transaction.getQuantity(), user.get(), transaction.getOperationType(), crypto.get().getQuote());
@@ -85,11 +85,14 @@ public class TransactionController {
 
 
     @PostMapping(value = "/take")
-    public ResponseEntity<TakeTransactionDto> publishTransaction(@RequestBody TakeTransactionDto takeTransactionDto){
-        Optional<User> consumer = userService.getUser(takeTransactionDto.getConsumerId());
+    public ResponseEntity<TakeTransactionDto> takeTransaction(@RequestBody TakeTransactionDto takeTransactionDto){
+        Optional<ModelUser> consumer = userService.getUser(takeTransactionDto.getConsumerId());
         Optional<Transaction> transaction = transactionService.getTransaction(takeTransactionDto.getTransactionId());
+        Integer transactionstateId = transaction.get().getTransactionState().getId();
         transaction.get().takeTransaction(consumer.get());
+        stateService.deleteState(transactionstateId);
         userService.save(consumer.get());
+
         transactionService.save(transaction.get());
         return new ResponseEntity<>(takeTransactionDto, HttpStatus.OK);
     }
