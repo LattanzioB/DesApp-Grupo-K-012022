@@ -4,9 +4,7 @@ import java.rmi.ServerException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Consumer;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,13 +15,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
 
 import ar.edu.unq.desapp.grupoK.backenddesappapi.dtos.TakeTransactionDto;
 import ar.edu.unq.desapp.grupoK.backenddesappapi.dtos.TransactionDto;
 import ar.edu.unq.desapp.grupoK.backenddesappapi.model.Crypto;
 import ar.edu.unq.desapp.grupoK.backenddesappapi.model.Transaction;
-import ar.edu.unq.desapp.grupoK.backenddesappapi.model.TransactionState;
 import ar.edu.unq.desapp.grupoK.backenddesappapi.model.ModelUser;
 import ar.edu.unq.desapp.grupoK.backenddesappapi.service.CryptoService;
 import ar.edu.unq.desapp.grupoK.backenddesappapi.service.TransactionService;

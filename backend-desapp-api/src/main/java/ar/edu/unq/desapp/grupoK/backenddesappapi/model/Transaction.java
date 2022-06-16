@@ -1,17 +1,14 @@
 package ar.edu.unq.desapp.grupoK.backenddesappapi.model;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
-import org.hibernate.annotations.ManyToAny;
 
 @Entity
 public class Transaction {
@@ -120,7 +117,9 @@ public class Transaction {
         return operationType;
     }
 
-    public Transaction(Crypto bnb, double d, ModelUser user, String string) {
+    public Transaction(Crypto bnb, double d, ModelUser publisher, String string) {
+        this.transactionState = new PublishedState(this);
+        publisher.addTransaction(this);
     }
 
     public void takeTransaction(ModelUser user){
