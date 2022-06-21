@@ -1,7 +1,8 @@
 package ar.edu.unq.desapp.grupoK.backenddesappapi.webservice;
 
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.List;
+import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -33,17 +34,7 @@ public class BinanceApi {
         
         CryptoDto cryptodto = restTemplate.getForObject(url, CryptoDto.class);
 
-<<<<<<< HEAD
         cryptoService.save(cryptodto);
-=======
-        
-        Date date = new Date();
-        date.toString();
-
-        Crypto newcrypto = new Crypto(cryptodto.getSymbol(), cryptodto.getPrice(),date.toString());
-
-        cryptoService.save(newcrypto);
->>>>>>> e75a1e64ff647a24017e8559f565fa222f8b9631
 
         return cryptodto;
     }
@@ -55,24 +46,8 @@ public class BinanceApi {
         RestTemplate restTemplate = new RestTemplate();
         
         CryptoDto[] cryptodtos = restTemplate.getForObject(url, CryptoDto[].class);
-
-        ArrayList<CryptoDto> finalCryptos = new ArrayList<CryptoDto>();
-
-        for (CryptoDto cryptoDto : cryptodtos) {
-            if(cryptos.containsCrypto(cryptoDto.getSymbol())){
-                finalCryptos.add(cryptoDto);
-            }
-        }
-
-        for (CryptoDto cryptoDto2 : finalCryptos) {
-            Crypto newcrypto = new Crypto(cryptoDto2.getSymbol(), cryptoDto2.getPrice());
-
-            cryptoService.save(newcrypto);
-        }
-            
-
-        
-        return new ResponseEntity<ArrayList<CryptoDto>>(finalCryptos, HttpStatus.OK);
+          
+        return new ResponseEntity<ArrayList<CryptoDto>>(cryptoService.saveAll(cryptodtos), HttpStatus.OK);
     }
 
 }

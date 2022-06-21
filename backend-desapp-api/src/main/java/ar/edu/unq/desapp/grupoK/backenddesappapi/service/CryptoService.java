@@ -1,6 +1,7 @@
 package ar.edu.unq.desapp.grupoK.backenddesappapi.service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -18,6 +19,7 @@ import ar.edu.unq.desapp.grupoK.backenddesappapi.persistence.CryptoRepository;
 @Service
 public class CryptoService {
     
+    private List<String> cryptosToGet = Arrays.asList("ALICEUSDT","MATICUSDT","AXSUSDT","AAVEUSDT","ATOMUSDT","NEOUSDT","DOTUSDT","CAKEUSDT","ADAUSDT","TRXUSDT","AUDIOUSDT","BTCUSDT","ETHUSDT","BNBUSDT");
     @Autowired
     private CryptoRepository cryptoRepository;
     
@@ -39,13 +41,25 @@ public class CryptoService {
         return cryptoRepository.save(newcrypto);
     }
 
- /*    @Transactional
-    public Crypto saveAll(CryptoDto[] cryptodtos) {
+     @Transactional
+    public ArrayList<CryptoDto> saveAll(CryptoDto[] cryptodtos) {
         //VALIDACION
-    
-        return cryptoRepository.save(newcrypto);
+        ArrayList<CryptoDto> finalCryptos = new ArrayList<CryptoDto>();
+
+        for (CryptoDto cryptoDto : cryptodtos) {
+            if(cryptosToGet.contains(cryptoDto.getSymbol())){
+                finalCryptos.add(cryptoDto);
+            }
+        }
+
+        for (CryptoDto cryptoDto2 : finalCryptos) {
+            Crypto newcrypto = new Crypto(cryptoDto2.getSymbol(), cryptoDto2.getPrice());
+
+            cryptoRepository.save(newcrypto);
+        }
+        return finalCryptos;
     }
-*/
+
     @Transactional
     public Optional<Crypto> getCryptoByName(String cryptoName) {
         Iterable<Crypto> cryptos = cryptoRepository.findAll();
