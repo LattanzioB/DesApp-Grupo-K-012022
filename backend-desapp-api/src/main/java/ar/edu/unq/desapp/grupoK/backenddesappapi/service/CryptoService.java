@@ -39,13 +39,13 @@ public class CryptoService {
         return cryptoRepository.save(newcrypto);
     }
 
-    @Transactional
-    public Crypto saveAll(CryptoDto newCryptodto) {
+ /*    @Transactional
+    public Crypto saveAll(CryptoDto[] cryptodtos) {
         //VALIDACION
-        Crypto newcrypto = new Crypto(newCryptodto.getSymbol(), newCryptodto.getPrice());
+    
         return cryptoRepository.save(newcrypto);
     }
-
+*/
     @Transactional
     public Optional<Crypto> getCryptoByName(String cryptoName) {
         Iterable<Crypto> cryptos = cryptoRepository.findAll();

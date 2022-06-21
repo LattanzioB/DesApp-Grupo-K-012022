@@ -32,9 +32,8 @@ public class UserDto {
     //Contraseña: al menos 1 minuscula, 1 mayuscula, 1 carac especial y min 6
     //missing regex
     @Pattern(regexp="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[-_.*()<>+?¡¿!#$%&]).{8,30}$",
-    message="La contraseña debe contener como mínimo 6 caracteres donde debe haber al menos 1 minuscula, 1 mayuscula y 1 caracter especial")// - Checks if the annotated string matches the regular expression regex considering the given flag match
+    message="the password should have at least 6 characters, in wich has to contains at least 1 mayus, 1 minus and one special character")// - Checks if the annotated string matches the regular expression regex considering the given flag match
     private String password;
-
 
     //CVU MercadoPago, Obligatorio (22 digitos)
     @Digits(integer=22, fraction=0)

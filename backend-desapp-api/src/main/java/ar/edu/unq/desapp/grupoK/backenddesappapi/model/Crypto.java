@@ -18,7 +18,7 @@ public class Crypto {
     @Column
     private String name;
     @Column
-    private String quoteFetechTime;
+    private String quoteFetchTime;
     @Column
     private double quote;
 
@@ -26,6 +26,13 @@ public class Crypto {
         this.name = name;
         //dummy value, until it can be fetch from a service
         this.quote = quote;
+    }
+
+    public Crypto(String name, Double quote, String quoteFetchTime){
+        this.name = name;
+        //dummy value, until it can be fetch from a service
+        this.quote = quote;
+        this.quoteFetchTime = quoteFetchTime;
     }
 
     public Crypto(String string) {

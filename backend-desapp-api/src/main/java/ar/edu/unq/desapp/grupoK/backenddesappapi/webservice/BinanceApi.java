@@ -1,8 +1,7 @@
 package ar.edu.unq.desapp.grupoK.backenddesappapi.webservice;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Stream;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -34,7 +33,17 @@ public class BinanceApi {
         
         CryptoDto cryptodto = restTemplate.getForObject(url, CryptoDto.class);
 
+<<<<<<< HEAD
         cryptoService.save(cryptodto);
+=======
+        
+        Date date = new Date();
+        date.toString();
+
+        Crypto newcrypto = new Crypto(cryptodto.getSymbol(), cryptodto.getPrice(),date.toString());
+
+        cryptoService.save(newcrypto);
+>>>>>>> e75a1e64ff647a24017e8559f565fa222f8b9631
 
         return cryptodto;
     }
