@@ -56,6 +56,9 @@ public class Transaction {
         this.frame = new TransactionFrame(this);
     }
 
+    public Transaction(Crypto bnb, double d, ModelUser user, String string) {
+    }
+
     public Transaction(){
 
     }
@@ -63,7 +66,7 @@ public class Transaction {
     public TransactionState getTransactionState(){
         return this.transactionState;
     }
-    
+
     public void setId(Integer id) {
         this.transactionId = id;
     }
@@ -120,8 +123,7 @@ public class Transaction {
         return operationType;
     }
 
-    public Transaction(Crypto bnb, double d, ModelUser user, String string) {
-    }
+
 
     public void takeTransaction(ModelUser user){
         this.transactionState.transferTake();

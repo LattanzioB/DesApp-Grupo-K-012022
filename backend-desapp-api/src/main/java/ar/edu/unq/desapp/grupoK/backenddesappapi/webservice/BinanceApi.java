@@ -34,9 +34,7 @@ public class BinanceApi {
         
         CryptoDto cryptodto = restTemplate.getForObject(url, CryptoDto.class);
 
-        Crypto newcrypto = new Crypto(cryptodto.getSymbol(), cryptodto.getPrice());
-
-        cryptoService.save(newcrypto);
+        cryptoService.save(cryptodto);
 
         return cryptodto;
     }

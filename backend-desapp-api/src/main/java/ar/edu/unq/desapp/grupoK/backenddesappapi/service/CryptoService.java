@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import ar.edu.unq.desapp.grupoK.backenddesappapi.dtos.CryptoDto;
 import ar.edu.unq.desapp.grupoK.backenddesappapi.model.Crypto;
 import ar.edu.unq.desapp.grupoK.backenddesappapi.persistence.CryptoRepository;
 
@@ -32,9 +33,17 @@ public class CryptoService {
     }
 
     @Transactional
-    public Crypto save(Crypto newCrypto) {
+    public Crypto save(CryptoDto newCryptodto) {
         //VALIDACION
-        return cryptoRepository.save(newCrypto);
+        Crypto newcrypto = new Crypto(newCryptodto.getSymbol(), newCryptodto.getPrice());
+        return cryptoRepository.save(newcrypto);
+    }
+
+    @Transactional
+    public Crypto saveAll(CryptoDto newCryptodto) {
+        //VALIDACION
+        Crypto newcrypto = new Crypto(newCryptodto.getSymbol(), newCryptodto.getPrice());
+        return cryptoRepository.save(newcrypto);
     }
 
     @Transactional
