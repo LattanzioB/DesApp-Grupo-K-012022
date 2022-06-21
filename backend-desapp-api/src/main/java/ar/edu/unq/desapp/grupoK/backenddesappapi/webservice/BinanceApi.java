@@ -39,8 +39,8 @@ public class BinanceApi {
         return cryptodto;
     }
 
-    @PostMapping(value = "/fetchAll")
-    public ResponseEntity<ArrayList<CryptoDto>> getCryptos(@RequestBody CryptosDto cryptos){
+    @GetMapping(value = "/fetchAll")
+    public ResponseEntity<ArrayList<CryptoDto>> getCryptos(){
         String url = "https://api.binance.us/api/v3/ticker/price";
 
         RestTemplate restTemplate = new RestTemplate();

@@ -44,39 +44,22 @@ public class TransactionController {
     
 
     @PostMapping
-    public ResponseEntity<TransactionDto> publishTransaction(@RequestBody TransactionDto transaction) throws ServerException{
-        Optional<ModelUser> user = userService.getUser(transaction.getPublisherId());
-        Optional<Crypto> crypto = cryptoService.getCryptoByName(transaction.getCryptoName());
-        Transaction newTransaction = new Transaction(crypto.get().getName(),
-        transaction.getQuantity(), user.get(), transaction.getOperationType(), crypto.get().getQuote());
-        transactionService.save(newTransaction);
-        userService.save(user.get());
-
+    public ResponseEntity<TransactionDto> publishTransaction(@RequestBody TransactionDto transactionDto) throws ServerException{
+        Optional<ModelUser> user = userService.getUser(transactionDto.getPublisherId());
+        Optional<Crypto> crypto = cryptoService.getCryptoByName(transactionDto.getCryptoName());
 
         if (user == null || crypto == null) {
             throw new ServerException(null);
         } else {
-
-            return new ResponseEntity<>(transaction, HttpStatus.CREATED);
+            transactionService.newTransaction(transactionDto, user.get(), crypto.get());
+            return new ResponseEntity<>(transactionDto, HttpStatus.CREATED);
         }
     }
 
     @GetMapping(value = "/active")
-    public List<TransactionDto> getActiveTransactions(){
-        ArrayList<TransactionDto> activeTransactionsList= new ArrayList<TransactionDto>();
-        Iterable<Optional<Transaction>> activeTransactions = StreamSupport.stream(stateService.getStates().spliterator(), false)
-        .filter(ts -> ts.isPublished() || ts.isTaken())
-        .map((o) -> Optional.of(o.getTransaction())).collect(Collectors.toList());
-        for(Optional<Transaction> transaction: activeTransactions){
-            Transaction newtransaction = transaction.get();
-            var transactionDto = new TransactionDto();
-            transactionDto.setCryptoName(newtransaction.getCryptoName());
-            transactionDto.setPublisherId(newtransaction.getPublisher().getUserId());
-            transactionDto.setOperationType(newtransaction.getOperationType());
-            transactionDto.setQuantity(newtransaction.getQuantity());
-            activeTransactionsList.add(transactionDto);
-        }
-        return activeTransactionsList;
+    public ArrayList<TransactionDto> getActiveTransactions(){
+        
+        return transactionService.getActiveTransactions(stateService.getStates());
     }
 
 
@@ -84,12 +67,8 @@ public class TransactionController {
     public ResponseEntity<TakeTransactionDto> takeTransaction(@RequestBody TakeTransactionDto takeTransactionDto){
         Optional<ModelUser> consumer = userService.getUser(takeTransactionDto.getConsumerId());
         Optional<Transaction> transaction = transactionService.getTransaction(takeTransactionDto.getTransactionId());
-        Integer transactionstateId = transaction.get().getTransactionState().getId();
-        transaction.get().takeTransaction(consumer.get());
-        stateService.deleteState(transactionstateId);
-        userService.save(consumer.get());
-
-        transactionService.save(transaction.get());
+        transactionService.takeTransaction(takeTransactionDto, consumer.get(), transaction.get());
+        
         return new ResponseEntity<>(takeTransactionDto, HttpStatus.OK);
     }
 }
