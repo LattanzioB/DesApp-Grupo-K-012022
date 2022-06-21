@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ar.edu.unq.desapp.grupoK.backenddesappapi.model.Transaction;
+import ar.edu.unq.desapp.grupoK.backenddesappapi.dtos.UserDto;
 import ar.edu.unq.desapp.grupoK.backenddesappapi.model.ModelUser;
 import ar.edu.unq.desapp.grupoK.backenddesappapi.persistence.UserRepository;
 
@@ -33,8 +34,19 @@ public class UserService {
         return userRepository.save(newUser);
     }
 
-    public void addTransaction(ModelUser user, Transaction transaction) {
+    @Transactional
+    public UserDto createUser(UserDto userDto){
+        ModelUser user = new ModelUser(userDto.getName(), userDto.getSurname(), userDto.getEmail(), userDto.getAdress(), userDto.getPassword(), userDto.getCvu(), userDto.getWallet());
         userRepository.save(user);
+
+        UserDto userResponse = new UserDto();
+        userResponse.setName(userDto.getName());
+        userResponse.setSurname(userDto.getSurname());
+        userResponse.setEmail(userDto.getEmail());
+        userResponse.setAdress(userDto.getAdress());
+        userResponse.setCvu(userDto.getCvu());
+        userResponse.setWallet( userDto.getWallet());
+        return userResponse;
     }
 
 

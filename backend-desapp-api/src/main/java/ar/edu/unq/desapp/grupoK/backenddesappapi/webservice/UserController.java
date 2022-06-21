@@ -38,23 +38,11 @@ public class UserController {
 
     @PostMapping()
     public ResponseEntity<UserDto> create(@Valid @RequestBody UserDto newUserDto) throws ServerException{
-        ModelUser user = new ModelUser(newUserDto.getName(), newUserDto.getSurname(), newUserDto.getEmail(), newUserDto.getAdress(), newUserDto.getPassword(), newUserDto.getCvu(), newUserDto.getWallet());
-        userService.save(user);
 
-        UserDto userResponse = new UserDto();
-        userResponse.setName(newUserDto.getName());
-        userResponse.setSurname(newUserDto.getSurname());
-        userResponse.setEmail(newUserDto.getEmail());
-        userResponse.setAdress(newUserDto.getAdress());
-        userResponse.setCvu(newUserDto.getCvu());
-        userResponse.setWallet( newUserDto.getWallet());
+        UserDto userResponse = userService.createUser(newUserDto);
 
 
-        if (user == null) {
-            throw new ServerException(null);
-        } else {
+        return new ResponseEntity<>(userResponse, HttpStatus.CREATED);
 
-            return new ResponseEntity<>(userResponse, HttpStatus.CREATED);
-        }
     }
 }
