@@ -11,7 +11,6 @@ import java.util.List;
 public class ModelUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
     private Integer userId;
     
 
@@ -27,7 +26,7 @@ public class ModelUser {
     private Integer cvu;
     private Integer wallet;
     private Integer popularity;
-    @OneToMany
+    @OneToMany //(mappedBy="user")
     @JoinColumn(name = "userId", nullable = true, insertable=false, updatable=true)
     private List<Transaction> transactionsPublished;
     @OneToMany

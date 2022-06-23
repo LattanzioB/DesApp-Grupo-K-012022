@@ -1,5 +1,6 @@
 package ar.edu.unq.desapp.grupoK.backenddesappapi.service;
 
+import java.rmi.ServerException;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -22,7 +23,18 @@ import ar.edu.unq.desapp.grupoK.backenddesappapi.persistence.TransactionReposito
 public class TransactionService {
     
     @Autowired
+    private UserService userService;
+
+    @Autowired
+    private CryptoService cryptoService;
+
+    @Autowired
+    private TransactionStateService stateService;
+
+    @Autowired
     private TransactionRepository transactionRepository;
+
+
     
 
     @Transactional
@@ -42,16 +54,26 @@ public class TransactionService {
     }
 
     @Transactional
-    public Transaction newTransaction(TransactionDto transactiondto, ModelUser user,Crypto crypto) {
-        Transaction newTransaction = new Transaction(crypto.getName(),
-        transactiondto.getQuantity(), user, transactiondto.getOperationType(), crypto.getQuote());
-        return transactionRepository.save(newTransaction);
+    public void newTransaction(TransactionDto transactiondto) throws ServerException {
+        Optional<ModelUser> user = userService.getUser(transactiondto.getPublisherId());
+        Optional<Crypto> crypto = cryptoService.getCryptoByName(transactiondto.getCryptoName());
+        Transaction newTransaction;
+
+        if (user == null || crypto == null) {
+            throw new ServerException(null);
+        } else {
+            newTransaction = new Transaction(crypto.get().getName(),
+            transactiondto.getQuantity(), user.get(), transactiondto.getOperationType(), crypto.get().getQuote());
+            transactionRepository.save(newTransaction);
+        }
+
+
     }
 
     @Transactional
-    public ArrayList<TransactionDto> getActiveTransactions(Iterable<TransactionState> states){
+    public ArrayList<TransactionDto> getActiveTransactions(){
         ArrayList<TransactionDto> activeTransactionsList= new ArrayList<TransactionDto>();
-        Iterable<Optional<Transaction>> activeTransactions = StreamSupport.stream(states.spliterator(), false)
+        Iterable<Optional<Transaction>> activeTransactions = StreamSupport.stream(stateService.getStates().spliterator(), false)
         .filter(ts -> ts.isPublished() || ts.isTaken())
         .map((o) -> Optional.of(o.getTransaction())).collect(Collectors.toList());
         for(Optional<Transaction> transaction: activeTransactions){
@@ -66,12 +88,18 @@ public class TransactionService {
         return activeTransactionsList;
     }
 
-    public void takeTransaction(TakeTransactionDto takeTransactionDto, ModelUser consumer, Transaction transaction) {
-//        Integer transactionstateId = transaction.getTransactionState().getId();
-        transaction.takeTransaction(consumer);
-//        stateService.deleteState(transactionstateId);
+
+    @Transactional
+    public void takeTransaction(TakeTransactionDto takeTransactionDto) {
+        Optional<ModelUser> consumer = userService.getUser(takeTransactionDto.getConsumerId());
+        Optional<Transaction> transaction = this.getTransaction(takeTransactionDto.getTransactionId());
 
 
-        transactionRepository.save(transaction);
+        //Integer transactionstateId = transaction.getTransactionState().getId();
+        transaction.get().takeTransaction(consumer.get());
+        //stateService.deleteState(transactionstateId);
+
+
+        transactionRepository.save(transaction.get());
     }
 }

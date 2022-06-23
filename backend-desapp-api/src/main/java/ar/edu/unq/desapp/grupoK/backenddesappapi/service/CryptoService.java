@@ -20,6 +20,7 @@ import ar.edu.unq.desapp.grupoK.backenddesappapi.persistence.CryptoRepository;
 public class CryptoService {
     
     private List<String> cryptosToGet = Arrays.asList("ALICEUSDT","MATICUSDT","AXSUSDT","AAVEUSDT","ATOMUSDT","NEOUSDT","DOTUSDT","CAKEUSDT","ADAUSDT","TRXUSDT","AUDIOUSDT","BTCUSDT","ETHUSDT","BNBUSDT");
+    
     @Autowired
     private CryptoRepository cryptoRepository;
     

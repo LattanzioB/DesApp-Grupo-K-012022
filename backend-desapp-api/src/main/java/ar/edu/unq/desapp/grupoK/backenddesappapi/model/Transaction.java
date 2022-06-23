@@ -1,6 +1,7 @@
 package ar.edu.unq.desapp.grupoK.backenddesappapi.model;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -8,6 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+
+import org.hibernate.annotations.Cascade;
 
 
 @Entity
@@ -26,20 +29,23 @@ public class Transaction {
     //@Column(name= "PUBLISHER")
     private ModelUser publisher;
 
+    @ManyToOne
+    @JoinColumn(name = "userId", nullable = true, insertable=false, updatable=true)
+//    @Column(name= "CONSUMER")
+    private ModelUser consumer;
+
     private String operationType;
     
     @OneToOne(cascade = CascadeType.ALL,optional = true)
     @JoinColumn(name = "transactionId", nullable = true, insertable=false, updatable=true)
+    @Cascade(org.hibernate.annotations.CascadeType.DELETE_ORPHAN)
     private TransactionState transactionState;
 
     @OneToOne(cascade = CascadeType.ALL,optional = true)
     @JoinColumn(name = "transactionId", nullable = true, insertable=false, updatable=true)
     private TransactionFrame frame;
 
-    @ManyToOne
-    @JoinColumn(name = "userId", nullable = true, insertable=false, updatable=true)
-    //@Column(name= "CONSUMER")
-    private ModelUser consumer;
+
 
     public Transaction(String cryptoName, double quantity, ModelUser publisher, String operationType, double quote){
         this.cryptoName = cryptoName;
