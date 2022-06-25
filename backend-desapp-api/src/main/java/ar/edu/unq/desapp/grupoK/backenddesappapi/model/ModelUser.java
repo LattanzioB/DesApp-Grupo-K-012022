@@ -129,8 +129,9 @@ public class ModelUser {
     }
 
     public void takeTransaction(Transaction transaction) {
-        this.transactionsTaken.add(transaction);
         transaction.takeTransaction(this);
+        this.transactionsTaken.add(transaction);
+
     }
 
     public void transferReceived(Transaction transaction) throws InvalidUserReceivingTransferException{

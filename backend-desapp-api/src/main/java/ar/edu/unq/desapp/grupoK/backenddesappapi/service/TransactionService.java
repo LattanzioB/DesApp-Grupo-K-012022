@@ -29,9 +29,6 @@ public class TransactionService {
     private CryptoService cryptoService;
 
     @Autowired
-    private TransactionStateService stateService;
-
-    @Autowired
     private TransactionRepository transactionRepository;
 
 
@@ -73,9 +70,9 @@ public class TransactionService {
     @Transactional
     public ArrayList<TransactionDto> getActiveTransactions(){
         ArrayList<TransactionDto> activeTransactionsList= new ArrayList<TransactionDto>();
-        Iterable<Optional<Transaction>> activeTransactions = StreamSupport.stream(stateService.getStates().spliterator(), false)
-        .filter(ts -> ts.isPublished() || ts.isTaken())
-        .map((o) -> Optional.of(o.getTransaction())).collect(Collectors.toList());
+        Iterable<Optional<Transaction>> activeTransactions = StreamSupport.stream(this.getTransactions().spliterator(), false)
+        .filter(ts -> ts.getTransactionState() == 1 || ts.getTransactionState() == 2)
+        .map((t) -> Optional.of(t)).collect(Collectors.toList());
         for(Optional<Transaction> transaction: activeTransactions){
             Transaction newtransaction = transaction.get();
             var transactionDto = new TransactionDto();

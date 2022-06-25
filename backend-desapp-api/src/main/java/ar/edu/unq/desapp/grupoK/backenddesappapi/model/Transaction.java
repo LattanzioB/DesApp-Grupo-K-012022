@@ -1,7 +1,6 @@
 package ar.edu.unq.desapp.grupoK.backenddesappapi.model;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -11,7 +10,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
-import org.hibernate.annotations.Cascade;
 
 
 @Entity
@@ -25,25 +23,25 @@ public class Transaction {
     private double quote;
     private double amountARS;
 
-    @ManyToOne(cascade = CascadeType.ALL,optional = true, fetch = FetchType.LAZY)
-    @JoinColumn(name = "publisherId", nullable = true, insertable=false, updatable=false)
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "publisherId", nullable = true, insertable=true, updatable=true)
     private ModelUser publisher;
 
     @ManyToOne()
-    @JoinColumn(name = "consumerId", nullable = true, insertable=false, updatable=true)
+    @JoinColumn(name = "consumerId", nullable = true, insertable=true, updatable=true)
     private ModelUser consumer;
 
     private String operationType;
     
-    @OneToOne(cascade = CascadeType.ALL,optional = true)
-    @JoinColumn(name = "transactionId", nullable = true, insertable=true, updatable=true)
-    private TransactionState transactionState;
+    
+    private Integer transactionState;
 
     @OneToOne(cascade = CascadeType.ALL,optional = true)
     @JoinColumn(name = "transactionId", nullable = true, insertable=false, updatable=true)
     private TransactionFrame frame;
 
-
+    @ManyToOne(cascade = {CascadeType.ALL})
+    private TransactionStateAssigner stateAssigner;
 
     public Transaction(String cryptoName, double quantity, ModelUser publisher, String operationType, double quote){
         this.cryptoName = cryptoName;
@@ -52,9 +50,10 @@ public class Transaction {
         this.amountARS = this.quote * 200;
         this.publisher = publisher;
         this.operationType = operationType;
-        this.transactionState = new PublishedState(this);
+        this.transactionState = 1;
         publisher.addTransaction(this);
         this.frame = new TransactionFrame(this);
+        this.stateAssigner = new TransactionStateAssigner();
     }
 
 
@@ -63,7 +62,7 @@ public class Transaction {
 
     }
 
-    public TransactionState getTransactionState(){
+    public Integer getTransactionState(){
         return this.transactionState;
     }
 
@@ -95,7 +94,7 @@ public class Transaction {
         this.operationType = operationType;
     }
 
-    public void setTransactionState(TransactionState transactionState) {
+    public void setTransactionState(Integer transactionState) {
         this.transactionState = transactionState;
     }
 
@@ -124,20 +123,20 @@ public class Transaction {
     }
 
     public Transaction(Crypto bnb, double d, ModelUser publisher, String string) {
-        this.transactionState = new PublishedState(this);
+        this.transactionState = 1;
         publisher.addTransaction(this);
     }
 
     public void takeTransaction(ModelUser user){
-        this.transactionState.transferTake();
+        this.stateAssigner.asigneState(this.transactionState).transferTake(this);
         this.consumer = user;
     }
 
     public void transferReceived(){
-        this.transactionState.transferReceived();
+        this.stateAssigner.asigneState(this.transactionState).transferReceived(this);
     }
 
-    public void changeState(TransactionState transactionState) {
+    public void changeState(Integer transactionState) {
         this.transactionState = transactionState;
     }
 
@@ -146,14 +145,14 @@ public class Transaction {
     }
 
     public boolean isTakenState() {
-        return this.transactionState.isTaken();
+        return this.stateAssigner.asigneState(this.transactionState).isTaken(this);
     }
 
     public boolean isPublishedState() {
-        return this.transactionState.isPublished();
+        return this.stateAssigner.asigneState(this.transactionState).isPublished(this);
     }
     public boolean isReceivedState() {
-        return this.transactionState.isReceived();
+        return this.stateAssigner.asigneState(this.transactionState).isReceived(this);
     }
 
 
@@ -162,7 +161,7 @@ public class Transaction {
     }
 
     public void cancelTransaction(ModelUser user) {
-        this.transactionState.cancelTransaction(user);
+        this.stateAssigner.asigneState(this.transactionState).cancelTransaction(this, user);
     }
 
 }

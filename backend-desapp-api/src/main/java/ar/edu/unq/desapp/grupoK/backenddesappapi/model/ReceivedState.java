@@ -1,48 +1,50 @@
 package ar.edu.unq.desapp.grupoK.backenddesappapi.model;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 @Entity
 public class ReceivedState extends TransactionState{
-
-    public ReceivedState(Transaction transaction) {
-        super(transaction);
-    }
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer stateId;
 
     public ReceivedState() {
         super();
     }
 
     @Override
-    public void transferTake() {
+    public void transferTake(Transaction transaction) {
         // error
         
     }
 
     @Override
-    public void transferReceived() {
+    public void transferReceived(Transaction transaction) {
         //error
         
     }
 
     @Override
-    public void cancelTransaction(ModelUser user) {
+    public void cancelTransaction(Transaction transaction, ModelUser user) {
         //error
         
     }
 
     @Override
-    public boolean isPublished() {
+    public boolean isPublished(Transaction transaction) {
         return false;
     }
 
     @Override
-    public boolean isTaken() {
+    public boolean isTaken(Transaction transaction) {
         return false;
     }
 
     @Override
-    public boolean isReceived() {
+    public boolean isReceived(Transaction transaction) {
         return true;
     }
     
