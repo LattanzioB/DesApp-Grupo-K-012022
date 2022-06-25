@@ -26,11 +26,9 @@ public class ModelUser {
     private Integer cvu;
     private Integer wallet;
     private Integer popularity;
-    @OneToMany //(mappedBy="user")
-    @JoinColumn(name = "userId", nullable = true, insertable=false, updatable=true)
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Transaction> transactionsPublished;
-    @OneToMany
-    @JoinColumn(name = "userId", nullable = true, insertable=false, updatable=true)
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Transaction> transactionsTaken;
 
     public ModelUser(){

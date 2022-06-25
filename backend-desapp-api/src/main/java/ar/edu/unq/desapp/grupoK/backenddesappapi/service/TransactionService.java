@@ -95,10 +95,10 @@ public class TransactionService {
         Optional<Transaction> transaction = this.getTransaction(takeTransactionDto.getTransactionId());
 
 
-        //Integer transactionstateId = transaction.getTransactionState().getId();
-        transaction.get().takeTransaction(consumer.get());
+        //Integer transactionstateId = transaction.get().getTransactionState().getId();
+        consumer.get().takeTransaction(transaction.get());
+        //transaction.get().takeTransaction(consumer.get());
         //stateService.deleteState(transactionstateId);
-
 
         transactionRepository.save(transaction.get());
     }

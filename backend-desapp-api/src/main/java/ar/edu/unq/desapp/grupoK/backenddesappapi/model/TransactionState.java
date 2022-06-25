@@ -15,7 +15,7 @@ public abstract class TransactionState {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer stateId;
     @OneToOne(cascade = CascadeType.ALL,optional = true)
-    @JoinColumn(name = "transactionId", nullable = true, insertable=false, updatable=true)
+    @JoinColumn(name = "transactionId", nullable = true, insertable=true, updatable=true)
     protected Transaction transaction;
 
     public Integer getId(){

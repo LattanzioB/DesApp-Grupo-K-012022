@@ -3,6 +3,7 @@ package ar.edu.unq.desapp.grupoK.backenddesappapi.model;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -24,21 +25,18 @@ public class Transaction {
     private double quote;
     private double amountARS;
 
-    @ManyToOne(cascade = CascadeType.ALL,optional = true)
-    @JoinColumn(name = "userId", nullable = false, insertable=false, updatable=false)
-    //@Column(name= "PUBLISHER")
+    @ManyToOne(cascade = CascadeType.ALL,optional = true, fetch = FetchType.LAZY)
+    @JoinColumn(name = "publisherId", nullable = true, insertable=false, updatable=false)
     private ModelUser publisher;
 
-    @ManyToOne
-    @JoinColumn(name = "userId", nullable = true, insertable=false, updatable=true)
-//    @Column(name= "CONSUMER")
+    @ManyToOne()
+    @JoinColumn(name = "consumerId", nullable = true, insertable=false, updatable=true)
     private ModelUser consumer;
 
     private String operationType;
     
     @OneToOne(cascade = CascadeType.ALL,optional = true)
-    @JoinColumn(name = "transactionId", nullable = true, insertable=false, updatable=true)
-    @Cascade(org.hibernate.annotations.CascadeType.DELETE_ORPHAN)
+    @JoinColumn(name = "transactionId", nullable = true, insertable=true, updatable=true)
     private TransactionState transactionState;
 
     @OneToOne(cascade = CascadeType.ALL,optional = true)
