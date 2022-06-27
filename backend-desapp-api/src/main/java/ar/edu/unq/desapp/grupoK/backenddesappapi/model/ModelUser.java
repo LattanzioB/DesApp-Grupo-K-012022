@@ -156,6 +156,10 @@ public class ModelUser {
         this.popularity -= 20;
     }
 
+    public void increasePoints(Integer points){
+        this.popularity += points;
+    }
+
     public void deleteTransactionTaken(Transaction transaction) {
         this.transactionsTaken.remove(transaction);
     }

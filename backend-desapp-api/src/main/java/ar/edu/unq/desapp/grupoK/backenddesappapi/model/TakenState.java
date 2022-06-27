@@ -1,5 +1,8 @@
 package ar.edu.unq.desapp.grupoK.backenddesappapi.model;
 
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -25,7 +28,13 @@ public class TakenState extends TransactionState{
     @Override
     public void transferReceived(Transaction transaction) {
         transaction.changeState(3);
-        
+        if (TimeUnit.MILLISECONDS.toSeconds((new Date().getTime() - transaction.getFrame().getPublishedHour().getTime())) < 1800 ){
+            transaction.getConsumer().increasePoints(10);
+            transaction.getPublisher().increasePoints(10);
+        }else {
+            transaction.getConsumer().increasePoints(5);
+            transaction.getPublisher().increasePoints(5);
+        }
     }
 
     @Override

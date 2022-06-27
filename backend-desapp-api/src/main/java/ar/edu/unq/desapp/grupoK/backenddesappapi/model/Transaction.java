@@ -36,6 +36,8 @@ public class Transaction {
     
     private Integer transactionState;
 
+     
+
     @OneToOne(cascade = CascadeType.ALL,optional = true)
     @JoinColumn(name = "transactionId", nullable = true, insertable=false, updatable=true)
     private TransactionFrame frame;
@@ -61,6 +63,12 @@ public class Transaction {
     public Transaction(){
 
     }
+
+    public TransactionFrame getFrame() {
+        return this.frame;
+    }
+
+
 
     public Integer getTransactionState(){
         return this.transactionState;

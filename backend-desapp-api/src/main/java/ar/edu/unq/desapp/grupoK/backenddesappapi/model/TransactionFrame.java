@@ -33,6 +33,24 @@ public class TransactionFrame {
     public TransactionFrame(){
 
     }
+
+    
+    public Date getPublishedHour() {
+        return publishedHour;
+    }
+
+    public void setPublishedHour(Date publishedHour) {
+        this.publishedHour = publishedHour;
+    }
+
+    public Integer getPopularity() {
+        return popularity;
+    }
+
+    public void setPopularity(Integer popularity) {
+        this.popularity = popularity;
+    }
+
     private Integer getUserPopularity() {
 
         return this.transaction.getPublisher().getPopularity();

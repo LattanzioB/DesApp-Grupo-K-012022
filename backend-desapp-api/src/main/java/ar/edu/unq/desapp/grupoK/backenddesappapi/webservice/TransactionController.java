@@ -11,9 +11,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
-import ar.edu.unq.desapp.grupoK.backenddesappapi.dtos.TakeTransactionDto;
+import ar.edu.unq.desapp.grupoK.backenddesappapi.dtos.DolarArsDto;
+import ar.edu.unq.desapp.grupoK.backenddesappapi.dtos.ProcessTransactionDto;
 import ar.edu.unq.desapp.grupoK.backenddesappapi.dtos.TransactionDto;
+import ar.edu.unq.desapp.grupoK.backenddesappapi.exception.InvalidUserReceivingTransferException;
 import ar.edu.unq.desapp.grupoK.backenddesappapi.service.TransactionService;
 
 
@@ -29,6 +32,9 @@ public class TransactionController {
 
     @PostMapping
     public ResponseEntity<TransactionDto> publishTransaction(@RequestBody TransactionDto transactionDto) throws ServerException{
+
+
+
         transactionService.newTransaction(transactionDto);
 
         return new ResponseEntity<>(transactionDto, HttpStatus.CREATED);
@@ -43,11 +49,19 @@ public class TransactionController {
 
 
     @PostMapping(value = "/take")
-    public ResponseEntity<TakeTransactionDto> takeTransaction(@RequestBody TakeTransactionDto takeTransactionDto){
+    public ResponseEntity<ProcessTransactionDto> takeTransaction(@RequestBody ProcessTransactionDto takeTransactionDto){
         transactionService.takeTransaction(takeTransactionDto);
         
         return new ResponseEntity<>(takeTransactionDto, HttpStatus.OK);
     }
+
+    @PostMapping(value = "/receive")
+    public ResponseEntity<ProcessTransactionDto> receiveTransaction(@RequestBody ProcessTransactionDto takeTransactionDto) throws InvalidUserReceivingTransferException{
+        transactionService.consumeTransaction(takeTransactionDto);
+        
+        return new ResponseEntity<>(takeTransactionDto, HttpStatus.OK);
+    }
+
 }
 
 

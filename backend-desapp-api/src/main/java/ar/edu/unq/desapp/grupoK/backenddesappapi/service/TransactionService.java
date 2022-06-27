@@ -10,8 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import ar.edu.unq.desapp.grupoK.backenddesappapi.dtos.TakeTransactionDto;
+import ar.edu.unq.desapp.grupoK.backenddesappapi.dtos.DolarArsDto;
+import ar.edu.unq.desapp.grupoK.backenddesappapi.dtos.ProcessTransactionDto;
 import ar.edu.unq.desapp.grupoK.backenddesappapi.dtos.TransactionDto;
+import ar.edu.unq.desapp.grupoK.backenddesappapi.exception.InvalidUserReceivingTransferException;
 import ar.edu.unq.desapp.grupoK.backenddesappapi.model.Crypto;
 import ar.edu.unq.desapp.grupoK.backenddesappapi.model.ModelUser;
 import ar.edu.unq.desapp.grupoK.backenddesappapi.model.Transaction;
@@ -63,8 +65,6 @@ public class TransactionService {
             transactiondto.getQuantity(), user.get(), transactiondto.getOperationType(), crypto.get().getQuote());
             transactionRepository.save(newTransaction);
         }
-
-
     }
 
     @Transactional
@@ -87,15 +87,25 @@ public class TransactionService {
 
 
     @Transactional
-    public void takeTransaction(TakeTransactionDto takeTransactionDto) {
-        Optional<ModelUser> consumer = userService.getUser(takeTransactionDto.getConsumerId());
+    public void takeTransaction(ProcessTransactionDto takeTransactionDto) {
+        Optional<ModelUser> consumer = userService.getUser(takeTransactionDto.getUserId());
         Optional<Transaction> transaction = this.getTransaction(takeTransactionDto.getTransactionId());
 
 
-        //Integer transactionstateId = transaction.get().getTransactionState().getId();
         consumer.get().takeTransaction(transaction.get());
-        //transaction.get().takeTransaction(consumer.get());
-        //stateService.deleteState(transactionstateId);
+
+
+        transactionRepository.save(transaction.get());
+    }
+
+    @Transactional
+    public void consumeTransaction(ProcessTransactionDto processTransactionDto) throws InvalidUserReceivingTransferException {
+        Optional<ModelUser> receiver = userService.getUser(processTransactionDto.getUserId());
+        Optional<Transaction> transaction = this.getTransaction(processTransactionDto.getTransactionId());
+
+
+        receiver.get().transferReceived(transaction.get());
+
 
         transactionRepository.save(transaction.get());
     }
