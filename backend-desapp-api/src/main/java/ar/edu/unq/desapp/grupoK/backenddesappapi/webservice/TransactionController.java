@@ -6,20 +6,20 @@ import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
 
-import ar.edu.unq.desapp.grupoK.backenddesappapi.dtos.DolarArsDto;
+
 import ar.edu.unq.desapp.grupoK.backenddesappapi.dtos.ProcessTransactionDto;
 import ar.edu.unq.desapp.grupoK.backenddesappapi.dtos.TransactionDto;
 import ar.edu.unq.desapp.grupoK.backenddesappapi.exception.InvalidUserReceivingTransferException;
 import ar.edu.unq.desapp.grupoK.backenddesappapi.service.TransactionService;
 
-
+@Controller
 @RestController
 @RequestMapping("/transactions")
 public class TransactionController {

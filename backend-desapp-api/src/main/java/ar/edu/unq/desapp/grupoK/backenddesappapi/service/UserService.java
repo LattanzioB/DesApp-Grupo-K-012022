@@ -7,7 +7,6 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import ar.edu.unq.desapp.grupoK.backenddesappapi.model.Transaction;
 import ar.edu.unq.desapp.grupoK.backenddesappapi.dtos.UserDto;
 import ar.edu.unq.desapp.grupoK.backenddesappapi.model.ModelUser;
 import ar.edu.unq.desapp.grupoK.backenddesappapi.persistence.UserRepository;
