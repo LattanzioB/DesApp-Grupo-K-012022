@@ -2,6 +2,7 @@ package ar.edu.unq.desapp.grupoK.backenddesappapi.service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -21,6 +22,19 @@ public class CryptoService {
     
     private List<String> cryptosToGet = Arrays.asList("ALICEUSDT","MATICUSDT","AXSUSDT","AAVEUSDT","ATOMUSDT","NEOUSDT","DOTUSDT","CAKEUSDT","ADAUSDT","TRXUSDT","AUDIOUSDT","BTCUSDT","ETHUSDT","BNBUSDT");
     
+    private String urlGetName = "https://api.binance.us/api/v3/ticker/price?symbol=";
+    private String urlGetAll = "https://api.binance.us/api/v3/ticker/price";
+
+
+    
+    public String getUrlGetName() {
+        return urlGetName;
+    }
+
+    public String getUrlGetAll() {
+        return urlGetAll;
+    }
+
     @Autowired
     private CryptoRepository cryptoRepository;
     
@@ -54,7 +68,7 @@ public class CryptoService {
         }
 
         for (CryptoDto cryptoDto2 : finalCryptos) {
-            Crypto newcrypto = new Crypto(cryptoDto2.getSymbol(), cryptoDto2.getPrice());
+            Crypto newcrypto = new Crypto(cryptoDto2.getSymbol(), cryptoDto2.getPrice(), new Date());
 
             cryptoRepository.save(newcrypto);
         }

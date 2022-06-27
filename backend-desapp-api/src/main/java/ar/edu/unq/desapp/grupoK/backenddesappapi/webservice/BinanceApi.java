@@ -28,7 +28,7 @@ public class BinanceApi {
 
     @GetMapping(value = "/fetch")
     public CryptoDto getCrypto(String crypto){
-        String url = "https://api.binance.us/api/v3/ticker/price?symbol=" + crypto;
+        String url =  cryptoService.getUrlGetName() + crypto;
 
         RestTemplate restTemplate = new RestTemplate();
         
@@ -41,7 +41,7 @@ public class BinanceApi {
 
     @GetMapping(value = "/fetchAll")
     public ResponseEntity<ArrayList<CryptoDto>> getCryptos(){
-        String url = "https://api.binance.us/api/v3/ticker/price";
+        String url = cryptoService.getUrlGetAll();
 
         RestTemplate restTemplate = new RestTemplate();
         

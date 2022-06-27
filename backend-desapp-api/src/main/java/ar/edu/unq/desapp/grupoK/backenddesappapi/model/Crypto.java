@@ -1,5 +1,7 @@
 package ar.edu.unq.desapp.grupoK.backenddesappapi.model;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,7 +20,7 @@ public class Crypto {
     @Column
     private String name;
     @Column
-    private String quoteFetchTime;
+    private Date quoteFetchTime;
     @Column
     private double quote;
 
@@ -28,11 +30,11 @@ public class Crypto {
         this.quote = quote;
     }
 
-    public Crypto(String name, Double quote, String quoteFetchTime){
+    public Crypto(String name, Double quote, Date date){
         this.name = name;
         //dummy value, until it can be fetch from a service
         this.quote = quote;
-        this.quoteFetchTime = quoteFetchTime;
+        this.quoteFetchTime = date;
     }
 
     public Crypto(String string) {
