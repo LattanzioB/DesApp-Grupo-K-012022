@@ -1,4 +1,4 @@
-package architecture;
+package ar.edu.unq.desapp.grupoK.architecture;
 
 import com.tngtech.archunit.core.domain.JavaClasses;
 import com.tngtech.archunit.core.importer.ClassFileImporter;
