@@ -32,6 +32,9 @@ public class ModelUser {
     private List<Transaction> transactionsTaken;
 
     public ModelUser(){
+        this.transactionsPublished  = new ArrayList<Transaction>();
+        this.transactionsTaken  = new ArrayList<Transaction>();
+        this.popularity = 0;
         
     }
 

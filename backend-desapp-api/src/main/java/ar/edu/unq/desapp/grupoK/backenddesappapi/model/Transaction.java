@@ -135,6 +135,16 @@ public class Transaction {
         publisher.addTransaction(this);
     }
 
+    public Transaction(ModelUser publisher) {
+        this.publisher = publisher;
+        publisher.addTransaction(this);
+        this.frame = new TransactionFrame(this);
+        this.stateAssigner = new TransactionStateAssigner();
+        this.transactionState = 1;
+    }
+
+
+
     public void takeTransaction(ModelUser user){
         this.stateAssigner.asigneState(this.transactionState).transferTake(this);
         this.consumer = user;
