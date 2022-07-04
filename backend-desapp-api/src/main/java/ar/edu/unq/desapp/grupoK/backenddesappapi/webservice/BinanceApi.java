@@ -9,15 +9,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import ar.edu.unq.desapp.grupoK.backenddesappapi.dtos.CryptoDto;
-import ar.edu.unq.desapp.grupoK.backenddesappapi.dtos.CryptosDto;
-import ar.edu.unq.desapp.grupoK.backenddesappapi.model.Crypto;
 import ar.edu.unq.desapp.grupoK.backenddesappapi.service.CryptoService;
 
 @Controller
@@ -42,14 +38,13 @@ public class BinanceApi {
     }
 
     @GetMapping(value = "/fetchAll")
-    public ResponseEntity<ArrayList<CryptoDto>> getCryptos(){
-        String url = cryptoService.getUrlGetAll();
+    public ResponseEntity<CryptoDto[]> getCryptos(){
+        return new ResponseEntity<CryptoDto[]>(cryptoService.updateCryptos(), HttpStatus.OK);
+    }
 
-        RestTemplate restTemplate = new RestTemplate();
-        
-        CryptoDto[] cryptodtos = restTemplate.getForObject(url, CryptoDto[].class);
-          
-        return new ResponseEntity<ArrayList<CryptoDto>>(cryptoService.saveAll(cryptodtos), HttpStatus.OK);
+    @GetMapping(value = "/getAllCryptos")
+    public ResponseEntity<ArrayList<CryptoDto>> getAllCryptos(){
+        return new ResponseEntity<ArrayList<CryptoDto>>(cryptoService.getCryptos(), HttpStatus.OK);
     }
 
 }

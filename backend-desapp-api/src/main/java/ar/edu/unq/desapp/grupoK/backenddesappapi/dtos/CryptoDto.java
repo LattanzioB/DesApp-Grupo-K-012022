@@ -1,15 +1,17 @@
 package ar.edu.unq.desapp.grupoK.backenddesappapi.dtos;
 
+import java.util.Date;
+
 public class CryptoDto {
     private String symbol;
     private double price;
-    private String fetchQuoteTime;
+    private Date fetchQuoteTime;
 
-    public String getFetchQuoteTime() {
+    public Date getFetchQuoteTime() {
         return fetchQuoteTime;
     }
 
-    public void setFetchQuoteTime(String fetchQuoteTime) {
+    public void setFetchQuoteTime(Date fetchQuoteTime) {
         this.fetchQuoteTime = fetchQuoteTime;
     }
 
@@ -30,6 +32,9 @@ public class CryptoDto {
     }
 
     public CryptoDto(){
+    }
+
+    public CryptoDto(String name, double quote) {
     }
 
 

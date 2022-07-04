@@ -21,8 +21,24 @@ public class Crypto {
     private String name;
     @Column
     private Date quoteFetchTime;
+    public Date getQuoteFetchTime() {
+        return quoteFetchTime;
+    }
+
+    public void setQuoteFetchTime(Date quoteFetchTime) {
+        this.quoteFetchTime = quoteFetchTime;
+    }
+
     @Column
     private double quote;
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setQuote(double quote) {
+        this.quote = quote;
+    }
 
     public Crypto(String name, Double quote){
         this.name = name;
